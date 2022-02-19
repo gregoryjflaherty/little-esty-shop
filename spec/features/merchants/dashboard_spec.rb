@@ -6,7 +6,6 @@ RSpec.describe 'User story 40' do
     visit "/merchants/#{@merchant1.id}/dashboard"
   end
   it 'shows every merchant' do
-    save_and_open_page
     expect(page).to have_content(@merchant1.name)
   end
 end
