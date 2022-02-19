@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Customer, type: :model do
+RSpec.describe Customer do
   describe 'relationships' do
-    it { should have_many :invoices}
-  end 
+    it {should have_many(:invoices)}
+  end
 end
