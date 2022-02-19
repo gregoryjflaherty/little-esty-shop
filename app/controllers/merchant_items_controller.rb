@@ -25,6 +25,6 @@ class MerchantItemsController < ApplicationController
   end
 
   def destroy
-    
+
   end
 end
