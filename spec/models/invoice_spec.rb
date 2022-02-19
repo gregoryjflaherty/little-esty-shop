@@ -6,4 +6,8 @@ RSpec.describe Invoice, type: :model do
     it { should have_many :transactions}
     it { should have_many(:items).through(:invoice_items)}
   end
+
+  describe 'validations' do
+    it { should define_enum_for(:status).with_values([:cancelled, :completed, "in progress"]) }
+  end
 end
