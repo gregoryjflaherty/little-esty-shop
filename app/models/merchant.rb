@@ -6,7 +6,7 @@ class Merchant < ApplicationRecord
   has_many :customers, through: :invoices
 
   def top_five_customers
-    binding.pry
+    customers.joins(:invoices, :transactions).where('transactions.results = ?', 'success')
   end
 
 end
