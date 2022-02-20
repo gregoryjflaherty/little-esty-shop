@@ -6,7 +6,7 @@ RSpec.describe 'User story 38' do
     visit "/merchants/#{@nike.id}/dashboard"
   end
 
-  it 'shows top 5 customers ' do
+  xit 'shows top 5 customers ' do
     
   end
 end
