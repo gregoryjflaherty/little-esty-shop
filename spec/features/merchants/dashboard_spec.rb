@@ -14,14 +14,14 @@ RSpec.describe 'User story 40' do
 
       expect(page).to have_content("Invoices")
       click_link "Invoices"
-      expect(current_path).to eq("/merchants/#{merchant.id}/invoices")
+      expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices")
     end
 
     it 'shows a link to merchant items and merchant items' do
 
       expect(page).to have_content("Items")
       click_link "Items"
-      expect(current_path).to eq("/merchants/#{merchant.id}/items")
+      expect(current_path).to eq("/merchants/#{@merchant1.id}/items")
     end
   end
 end
