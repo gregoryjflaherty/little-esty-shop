@@ -8,4 +8,13 @@ RSpec.describe 'User story 40' do
   it 'shows every merchant' do
     expect(page).to have_content(@merchant1.name)
   end
+
+  describe 'User Story 39' do
+    it 'shows a link to merchant items and merchant invoices' do
+
+      expect(page).to have_content("Invoices")
+      click_link "Invoices"
+      expect(current_path).to eq("/merchants/#{merchant.id}/invoices")
+    end
+  end
 end
