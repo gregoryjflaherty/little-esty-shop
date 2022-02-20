@@ -11,7 +11,6 @@ RSpec.describe 'User story 35' do
 
   end
   it 'shows every item belonging to merchant' do
-    #save_and_open_page
     expect(page).to have_content(@item1.name)
     expect(page).to have_content(@item2.name)
     expect(page).to have_no_content(@item3.name)
