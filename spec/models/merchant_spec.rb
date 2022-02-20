@@ -8,4 +8,46 @@ RSpec.describe Merchant, type: :model do
     it { should have_many(:transactions).through(:invoices)}
     it { should have_many(:customers).through(:invoices)}
   end
+
+  before(:each) do
+    @nike = Merchant.create(name: "Nike")
+
+    @shoe_1 = Item.create(name: 'shoe_1', merchant_id: @nike.id)
+
+    @customer_1 = Customer.create!(first_name: 'One',last_name:'Customer' )
+    @customer_2 = Customer.create!(first_name: 'Two',last_name:'Customer' )
+    @customer_3 = Customer.create!(first_name: 'Three' ,last_name:'Customer' )
+    @customer_4 = Customer.create!(first_name: 'Four',last_name:'Customer' )
+    @customer_5 = Customer.create!(first_name: 'Five',last_name:'Customer' )
+    @customer_6 = Customer.create!(first_name: 'Six',last_name:'Customer' )
+
+    @invoice_1 = Invoice.create(customer_id: @customer_1.id, status: 1)
+    @invoice_2 = Invoice.create(customer_id: @customer_2.id, status: 1)
+    @invoice_3 = Invoice.create(customer_id: @customer_3.id, status: 1)
+    @invoice_4 = Invoice.create(customer_id: @customer_4.id, status: 1)
+    @invoice_5 = Invoice.create(customer_id: @customer_5.id, status: 1)
+    @invoice_6 = Invoice.create(customer_id: @customer_6.id, status: 1)
+
+    @invoice_item_1 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_1.id, status: 2)
+    @invoice_item_2 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_1.id, status: 1)
+    @invoice_item_3 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_1.id, status: 1)
+    @invoice_item_4 = InvoiceItem.create(invoice_id: @invoice_4.id, item_id: @shoe_1.id, status: 1)
+    @invoice_item_5 = InvoiceItem.create(invoice_id: @invoice_5.id, item_id: @shoe_1.id, status: 1)
+    @invoice_item_6 = InvoiceItem.create(invoice_id: @invoice_6.id, item_id: @shoe_1.id, status: 1)
+
+
+    @transaction_1 = Transaction.create(invoice_id: @invoice_item_1.invoice.id, result: 0)
+    @transaction_2 = Transaction.create(invoice_id: @invoice_item_2.invoice.id, result: 1)
+    @transaction_3 = Transaction.create(invoice_id: @invoice_item_3.invoice.id, result: 1)
+    @transaction_4 = Transaction.create(invoice_id: @invoice_item_4.invoice.id, result: 1)
+    @transaction_5 = Transaction.create(invoice_id: @invoice_item_5.invoice.id, result: 1)
+    @transaction_6 = Transaction.create(invoice_id: @invoice_item_6.invoice.id, result: 1)
+  end
+
+  describe '.instance methods' do
+    it '.top_five_customers' do
+      results = [@customer_2, @customer_3, @customer_4, @customer_5, @customer_6]
+      expect(@nike.top_five_customers).to eq(results)
+    end
+  end
 end
