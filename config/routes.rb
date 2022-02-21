@@ -6,8 +6,10 @@ Rails.application.routes.draw do
   end
 
   get 'merchants/:merchant_id/:item_id', to: 'merchant_items#show'
+  get '/merchants/:merchant_id/invoices',to: 'merchant_invoices#index'
+
+
   #get 'merchants/:merchant_id/dashboard', to: 'dashboard#show'
 
-  #get '/merchants/:merchant_id/invoices',to: 'merchant_invoices#index'
   #get 'merchants/:merchant_id/invoices/invoice_id', to: 'merchant_invoices#show'
 end
