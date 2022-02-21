@@ -12,7 +12,7 @@ RSpec.describe 'User story 34' do
   it 'item name on index page goes to item show page' do
     visit "/merchants/#{@merchant1.id}/items" #merchant items index
 
-    click_on_link "#{@item1.name}"
+    click_link "#{@item1.name}"
 
     expect(page).to have_current_path("/merchants/#{@merchant1.id}/items")
   end
