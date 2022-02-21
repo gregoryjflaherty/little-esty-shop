@@ -22,6 +22,6 @@ RSpec.describe 'User story 34' do
 
     expect(page).to have_content(@item1.name)
     expect(page).to have_content(@item1.description)
-    expect(page).to have_no_content(@item1.unit_price)
+    expect(page).to have_content(@item1.unit_price)
   end
 end
