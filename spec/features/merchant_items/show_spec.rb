@@ -14,7 +14,7 @@ RSpec.describe 'User story 34' do
 
     click_link "#{@item1.name}"
 
-    expect(page).to have_current_path("/merchants/#{@merchant1.id}/items")
+    expect(page).to have_current_path("/merchants/#{@merchant1.id}/#{@item1.id}")
   end
 
   it 'shows every items attributes' do
