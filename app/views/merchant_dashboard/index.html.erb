@@ -1,1 +1,8 @@
 <h1><%= @merchant.name %></h1>
+
+<h4> Top Customers </h4>
+<% @merchant.top_five_customers.each_with_index do |customer, idx| %>
+  <section id="customer-<%=idx%>">
+    <%="#{customer.first_name} #{customer.last_name}: #{customer.transaction_count}" %>
+  </section>
+<% end %>
