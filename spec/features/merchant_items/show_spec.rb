@@ -18,7 +18,7 @@ RSpec.describe 'User story 34' do
   end
 
   it 'shows every items attributes' do
-    visit "/merchants/#{@merchant1.id}/items"
+    visit "/merchants/#{@merchant1.id}/#{@item1.id}"
 
     expect(page).to have_content(@item1.name)
     expect(page).to have_content(@item1.description)
