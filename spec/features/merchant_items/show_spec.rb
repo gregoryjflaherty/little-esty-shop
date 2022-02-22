@@ -35,7 +35,8 @@ RSpec.describe 'User story 38' do
     @transaction_5 = Transaction.create(invoice_id: @invoice_item_5.invoice.id, result: 1)
     @transaction_6 = Transaction.create(invoice_id: @invoice_item_6.invoice.id, result: 1)
 
-    visit "/merchants/#{@nike.id}/dashboard"
+
+    visit merchant_dashboard_index_path(@nike)
   end
 
   it 'shows top 5 customers ' do
@@ -82,15 +83,17 @@ RSpec.describe 'User story 38' do
     end
 
     it 'item name on index page goes to item show page' do
-      visit "/merchants/#{@merchant1.id}/items" #merchant items index
+
+      visit merchant_items_path(@merchant1)
 
       click_link "#{@item1.name}"
 
-      expect(page).to have_current_path("/merchants/#{@merchant1.id}/#{@item1.id}")
+      expect(page).to have_current_path(merchant_item_path(@merchant1, @item1))
+        # merchant_items_path(@merchant1, @item1)
     end
 
     it 'shows every items attributes' do
-      visit "/merchants/#{@merchant1.id}/#{@item1.id}"
+      visit merchant_item_path(@merchant1, @item1)
 
       expect(page).to have_content(@item1.name)
       expect(page).to have_content(@item1.description)
