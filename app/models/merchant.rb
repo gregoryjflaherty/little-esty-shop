@@ -13,4 +13,11 @@ class Merchant < ApplicationRecord
       .order('transaction_count DESC')
       .limit(5)
   end
+
+  def items_not_shipped
+    items.joins(invoice_items: :invoice)
+    .select("items.*, invoices.created_at AS invoice_created, invoices.id AS invoice_id")
+    .where.not("invoice_items.status = ?", 2)
+    .order("invoices.created_at ASC")
+  end
 end

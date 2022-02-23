@@ -7,7 +7,8 @@ RSpec.describe 'User story 35' do
     @item1 = @merchant1.items.create!(name: "Ferret Food", unit_price: 20)
     @item2 = @merchant1.items.create!(name: "Ferret Leash", unit_price: 20)
     @item3 = @merchant2.items.create!(name: "Ferret Shampoo", unit_price: 20)
-    visit "/merchants/#{@merchant1.id}/items"
+    
+    visit merchant_items_path(@merchant1)
 
   end
   it 'shows every item belonging to merchant' do
