@@ -4,6 +4,9 @@ RSpec.describe 'merchant dashboard' do
   before(:each) do
     @merchant1 = Merchant.create!(name: "Pabu")
 
+
+    visit merchant_dashboard_index_path(@merchant1)
+
     @shoe_1 = Item.create(name: 'shoe_1', merchant_id: @merchant1.id)
     @shoe_2 = Item.create(name: 'shoe_2', merchant_id: @merchant1.id)
     @shoe_3 = Item.create(name: 'shoe_3', merchant_id: @merchant1.id)
@@ -46,9 +49,8 @@ RSpec.describe 'merchant dashboard' do
     @transaction_5 = Transaction.create(invoice_id: @invoice_item_5.invoice.id, result: 1)
     @transaction_6 = Transaction.create(invoice_id: @invoice_item_6.invoice.id, result: 1)
   
-    visit "/merchants/#{@merchant1.id}/dashboard"
   end
-  
+
   it 'shows every merchant' do
     expect(page).to have_content(@merchant1.name)
   end
@@ -59,6 +61,7 @@ RSpec.describe 'merchant dashboard' do
       expect(page).to have_content("Invoices")
       click_link "Invoices"
       expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices")
+      
     end
 
     it 'shows a link to merchant items and merchant items' do
