@@ -1,18 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'merchant dashboard' do
+RSpec.describe 'User story 38' do
   before(:each) do
-    @merchant1 = Merchant.create!(name: "Pabu")
+    @nike = Merchant.create!(name: "Nike")
 
-
-    visit merchant_dashboard_index_path(@merchant1)
-
-    @shoe_1 = Item.create(name: 'shoe_1', merchant_id: @merchant1.id)
-    @shoe_2 = Item.create(name: 'shoe_2', merchant_id: @merchant1.id)
-    @shoe_3 = Item.create(name: 'shoe_3', merchant_id: @merchant1.id)
-    @shoe_4 = Item.create(name: 'shoe_4', merchant_id: @merchant1.id)
-    @shoe_5 = Item.create(name: 'shoe_5', merchant_id: @merchant1.id)
-    @shoe_6 = Item.create(name: 'shoe_6', merchant_id: @merchant1.id)
+    @shoe_1 = Item.create(name: 'shoe_1', merchant_id: @nike.id)
 
     @customer_1 = Customer.create!(first_name: 'One',last_name:'Customer' )
     @customer_2 = Customer.create!(first_name: 'Two',last_name:'Customer' )
@@ -26,20 +18,14 @@ RSpec.describe 'merchant dashboard' do
     @invoice_3 = Invoice.create(customer_id: @customer_3.id, status: 1)
     @invoice_4 = Invoice.create(customer_id: @customer_4.id, status: 1)
     @invoice_5 = Invoice.create(customer_id: @customer_5.id, status: 1)
-
-    @invoice_1 = Invoice.create(customer_id: @customer_1.id, status: 1)
-    @invoice_2 = Invoice.create(customer_id: @customer_2.id, status: 1)
-    @invoice_3 = Invoice.create(customer_id: @customer_3.id, status: 1)
-    @invoice_4 = Invoice.create(customer_id: @customer_4.id, status: 1)
-    @invoice_5 = Invoice.create(customer_id: @customer_5.id, status: 1)
     @invoice_6 = Invoice.create(customer_id: @customer_6.id, status: 1)
 
     @invoice_item_1 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_1.id, status: 2)
-    @invoice_item_2 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_2.id, status: 1)
-    @invoice_item_3 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_3.id, status: 1)
-    @invoice_item_4 = InvoiceItem.create(invoice_id: @invoice_4.id, item_id: @shoe_4.id, status: 1)
-    @invoice_item_5 = InvoiceItem.create(invoice_id: @invoice_5.id, item_id: @shoe_5.id, status: 1)
-    @invoice_item_6 = InvoiceItem.create(invoice_id: @invoice_6.id, item_id: @shoe_6.id, status: 1)
+    @invoice_item_2 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_1.id, status: 1)
+    @invoice_item_3 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_1.id, status: 1)
+    @invoice_item_4 = InvoiceItem.create(invoice_id: @invoice_4.id, item_id: @shoe_1.id, status: 1)
+    @invoice_item_5 = InvoiceItem.create(invoice_id: @invoice_5.id, item_id: @shoe_1.id, status: 1)
+    @invoice_item_6 = InvoiceItem.create(invoice_id: @invoice_6.id, item_id: @shoe_1.id, status: 1)
 
 
     @transaction_1 = Transaction.create(invoice_id: @invoice_item_1.invoice.id, result: 0)
@@ -48,11 +34,47 @@ RSpec.describe 'merchant dashboard' do
     @transaction_4 = Transaction.create(invoice_id: @invoice_item_4.invoice.id, result: 1)
     @transaction_5 = Transaction.create(invoice_id: @invoice_item_5.invoice.id, result: 1)
     @transaction_6 = Transaction.create(invoice_id: @invoice_item_6.invoice.id, result: 1)
-  
+
+
+    visit merchant_dashboard_index_path(@nike)
+  end
+
+  it 'shows top 5 customers ' do
+    expect(page).to have_content('Top Customers')
+
+    within '#customer-0' do
+      expect(page).to have_content(@customer_2.first_name)
+      expect(page).to have_content(@customer_2.last_name)
+      expect(page).to have_content(1)
+    end
+
+    within '#customer-1' do
+      expect(page).to have_content(@customer_3.first_name)
+      expect(page).to have_content(@customer_3.last_name)
+      expect(page).to have_content(1)
+    end
+
+    within '#customer-2' do
+      expect(page).to have_content(@customer_4.first_name)
+      expect(page).to have_content(@customer_4.last_name)
+      expect(page).to have_content(1)
+    end
+
+    within '#customer-3' do
+      expect(page).to have_content(@customer_5.first_name)
+      expect(page).to have_content(@customer_5.last_name)
+      expect(page).to have_content(1)
+    end
+
+    within '#customer-4' do
+      expect(page).to have_content(@customer_6.first_name)
+      expect(page).to have_content(@customer_6.last_name)
+      expect(page).to have_content(1)
+    end
   end
 
   it 'shows every merchant' do
-    expect(page).to have_content(@merchant1.name)
+    expect(page).to have_content(@nike.name)
   end
 
   describe 'User Story 39' do
@@ -60,15 +82,15 @@ RSpec.describe 'merchant dashboard' do
 
       expect(page).to have_content("Invoices")
       click_link "Invoices"
-      expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices")
-      
+      expect(current_path).to eq("/merchants/#{@nike.id}/invoices")
+
     end
 
     it 'shows a link to merchant items and merchant items' do
 
       expect(page).to have_content("Items")
       click_link "Items"
-      expect(current_path).to eq("/merchants/#{@merchant1.id}/items")
+      expect(current_path).to eq("/merchants/#{@nike.id}/items")
     end
   end
 
