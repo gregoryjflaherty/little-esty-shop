@@ -13,6 +13,11 @@ RSpec.describe Merchant, type: :model do
     @nike = Merchant.create(name: "Nike")
 
     @shoe_1 = Item.create(name: 'shoe_1', merchant_id: @nike.id)
+    @shoe_2 = Item.create(name: 'shoe_2', merchant_id: @nike.id)
+    @shoe_3 = Item.create(name: 'shoe_3', merchant_id: @nike.id)
+    @shoe_4 = Item.create(name: 'shoe_4', merchant_id: @nike.id)
+    @shoe_5 = Item.create(name: 'shoe_5', merchant_id: @nike.id)
+    @shoe_6 = Item.create(name: 'shoe_6', merchant_id: @nike.id)
 
     @customer_1 = Customer.create!(first_name: 'One',last_name:'Customer' )
     @customer_2 = Customer.create!(first_name: 'Two',last_name:'Customer' )
@@ -29,11 +34,11 @@ RSpec.describe Merchant, type: :model do
     @invoice_6 = Invoice.create(customer_id: @customer_6.id, status: 1)
 
     @invoice_item_1 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_1.id, status: 2)
-    @invoice_item_2 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_1.id, status: 1)
-    @invoice_item_3 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_1.id, status: 1)
-    @invoice_item_4 = InvoiceItem.create(invoice_id: @invoice_4.id, item_id: @shoe_1.id, status: 1)
-    @invoice_item_5 = InvoiceItem.create(invoice_id: @invoice_5.id, item_id: @shoe_1.id, status: 1)
-    @invoice_item_6 = InvoiceItem.create(invoice_id: @invoice_6.id, item_id: @shoe_1.id, status: 1)
+    @invoice_item_2 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_2.id, status: 1)
+    @invoice_item_3 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_3.id, status: 1)
+    @invoice_item_4 = InvoiceItem.create(invoice_id: @invoice_4.id, item_id: @shoe_4.id, status: 1)
+    @invoice_item_5 = InvoiceItem.create(invoice_id: @invoice_5.id, item_id: @shoe_5.id, status: 1)
+    @invoice_item_6 = InvoiceItem.create(invoice_id: @invoice_6.id, item_id: @shoe_6.id, status: 1)
 
 
     @transaction_1 = Transaction.create(invoice_id: @invoice_item_1.invoice.id, result: 0)
@@ -48,6 +53,10 @@ RSpec.describe Merchant, type: :model do
     it '.top_five_customers' do
       results = [@customer_2, @customer_3, @customer_4, @customer_5, @customer_6]
       expect(@nike.top_five_customers).to eq(results)
+    end
+
+    it '#items_not_shipped returns unshipped items ordered by invoice date' do
+      expect(@nike.items_not_shipped).to eq([@shoe_2, @shoe_3, @shoe_4, @shoe_5, @shoe_6])
     end
   end
 end
