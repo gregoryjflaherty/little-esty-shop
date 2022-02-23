@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   end
 
   get '/merchants/:merchant_id/invoices',to: 'merchant_invoices#index'
+  patch 'merchants/:merchant_id/:item_id/update', to: 'merchant_items#update'
   get 'merchants/:merchant_id/:item_id', to: 'merchant_items#show'
 
 
