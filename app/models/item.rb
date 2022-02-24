@@ -5,7 +5,11 @@ class Item < ApplicationRecord
   has_many :customers, through: :invoices
   has_many :transactions, through: :invoices
 
-  def change_enabled_status
-    self.enabled = !self.enabled
+  def change_enabled_status(status)
+    if status == 'true'
+      update!(enabled: false)
+    else
+      update!(enabled: true)
+    end
   end
 end
