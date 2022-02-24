@@ -22,7 +22,11 @@ class MerchantItemsController < ApplicationController
   end
 
   def update
-
+    @item = Item.find(params[:id])
+    if params[:enabled]
+      @item.change_enabled_status(params[:enabled])
+      redirect_to "/merchants/#{params[:merchant_id]}/items"
+    end
   end
 
   def destroy
