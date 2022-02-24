@@ -22,7 +22,7 @@ RSpec.describe Item, type: :model do
         @nike = Merchant.create!(name: "Nike")
         @af_one = @nike.items.create!(name: "Air Force One", unit_price: 120)
 
-        @af_one.change_enabled_status
+        @af_one.change_enabled_status('true')
         expect(@af_one.enabled).to eq(false)
       end
     end
