@@ -9,6 +9,7 @@ RSpec.describe Merchant, type: :model do
     it { should have_many(:customers).through(:invoices)}
   end
 
+
   before(:each) do
     @nike = Merchant.create(name: "Nike")
 
@@ -18,6 +19,9 @@ RSpec.describe Merchant, type: :model do
     @shoe_4 = Item.create(name: 'shoe_4', merchant_id: @nike.id)
     @shoe_5 = Item.create(name: 'shoe_5', merchant_id: @nike.id)
     @shoe_6 = Item.create(name: 'shoe_6', merchant_id: @nike.id)
+    @shoe_7 = Item.create(name: 'shoe_4', merchant_id: @nike.id, enabled: false)
+    @shoe_8 = Item.create(name: 'shoe_5', merchant_id: @nike.id, enabled: false)
+    @shoe_9 = Item.create(name: 'shoe_6', merchant_id: @nike.id, enabled: false)
 
     @customer_1 = Customer.create!(first_name: 'One',last_name:'Customer' )
     @customer_2 = Customer.create!(first_name: 'Two',last_name:'Customer' )
@@ -50,13 +54,28 @@ RSpec.describe Merchant, type: :model do
   end
 
   describe '.instance methods' do
-    it '.top_five_customers' do
-      results = [@customer_2, @customer_3, @customer_4, @customer_5, @customer_6]
-      expect(@nike.top_five_customers).to eq(results)
+    describe '.top_five_customers' do
+      it 'returns top five cutomers with most most transactions' do
+        results = [@customer_2, @customer_3, @customer_4, @customer_5, @customer_6]
+        expect(@nike.top_five_customers).to eq(results)
+      end
     end
 
     it '#items_not_shipped returns unshipped items ordered by invoice date' do
       expect(@nike.items_not_shipped).to eq([@shoe_2, @shoe_3, @shoe_4, @shoe_5, @shoe_6])
     end
   end
+
+  describe '.enabled_disabled_items' do
+    it 'provides all items that are enabled' do
+      results = [@shoe_1, @shoe_2, @shoe_3, @shoe_4, @shoe_5, @shoe_6]
+      expect(@nike.enabled_disabled_items(true)).to eq(results)
+    end
+
+    it 'provides all items that are disabled' do
+      results = [@shoe_7, @shoe_8, @shoe_9]
+      expect(@nike.enabled_disabled_items(false)).to eq(results)
+    end
+  end
+
 end
