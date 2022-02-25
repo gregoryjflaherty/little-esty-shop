@@ -29,26 +29,20 @@ RSpec.describe 'Merchant Items Index' do
         visit merchant_items_path(@nike)
         expect(current_path).to eq(merchant_items_path(@nike))
 
-        within "#item#{@af_one.id}" do
-          expect(page).to have_button("Disable #{@af_one.name} Item")
-        end
-
-        within "#item#{@jordan_6.id}" do
-          expect(page).to have_button("Disable #{@jordan_6.name} Item")
-        end
+        expect(page).to have_button("Disable #{@af_one.name} Item")
+        expect(page).to have_button("Disable #{@jordan_6.name} Item")
       end
 
       it 'clicks that item and only that item is disabled' do
         visit merchant_items_path(@nike)
         expect(current_path).to eq(merchant_items_path(@nike))
 
-        within "#item#{@af_one.id}" do
-          expect(page).to have_button("Disable #{@af_one.name} Item")
-          click_on "Disable #{@af_one.name} Item"
+        expect(page).to have_button("Disable #{@af_one.name} Item")
+        click_on "Disable #{@af_one.name} Item"
 
-          expect(current_path).to eq(merchant_items_path(@nike))
-          expect(page).to have_button("Enable #{@af_one.name} Item")
-          expect(page).to_not have_button("Disable #{@af_one.name} Item")
+        expect(current_path).to eq(merchant_items_path(@nike))
+        expect(page).to have_button("Enable #{@af_one.name} Item")
+        expect(page).to_not have_button("Disable #{@af_one.name} Item")
         end
       end
     end
@@ -58,7 +52,7 @@ RSpec.describe 'Merchant Items Index' do
     describe 'has sections for enabled and disabled items and lists those items in each section' do
       it 'has a section for disabled and enabled items' do
         visit merchant_items_path(@nike)
-        expect(current_path).to eq(visit merchant_items_path(@nike))
+        expect(current_path).to eq(merchant_items_path(@nike))
 
         within "div.enabled_items" do
           expect(page).to have_content("Enabled Items")
@@ -73,7 +67,7 @@ RSpec.describe 'Merchant Items Index' do
 
       it 'Enabled items section only lists enabled items' do
         visit merchant_items_path(@nike)
-        expect(current_path).to eq(visit merchant_items_path(@nike))
+        expect(current_path).to eq(merchant_items_path(@nike))
 
         within "div.enabled_items" do
           expect(page).to have_content("Enabled Items")
@@ -89,7 +83,7 @@ RSpec.describe 'Merchant Items Index' do
 
       it 'Disabled items section only lists disabled items' do
         visit merchant_items_path(@nike)
-        expect(current_path).to eq(visit merchant_items_path(@nike))
+        expect(current_path).to eq(merchant_items_path(@nike))
 
         click_on "Disable #{@jordan_6} Item"
 
