@@ -8,4 +8,26 @@ RSpec.describe 'Admin Index' do
       expect(page).to have_content('Admin Dashboard')
     end
   end
+
+  describe 'US 21' do
+    it 'has links to merchant index' do
+      visit '/admin/'
+      expect(page).to have_link("All Merchants")
+
+      click_on "All Merchants"
+      expect(current_path).to eq('/admin/merchants')
+    end
+
+    it 'has links to invoices index' do
+      visit '/admin/'
+      expect(page).to have_link("All Invoices")
+
+      click_on "All Invoices"
+      expect(current_path).to eq('/admin/invoices')
+    end
+  end
+  #   As an admin,
+  # When I visit the admin dashboard (/admin)
+  # Then I see a link to the admin merchants index (/admin/merchants)
+  # And I see a link to the admin invoices index (/admin/invoices)
 end
