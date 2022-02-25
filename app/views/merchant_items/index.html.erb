@@ -17,3 +17,5 @@
       <%= button_to "Enable #{item.name} Item", merchant_item_path(@merchant.id, item.id, enabled: false), {method: 'patch'} %>
   <% end %>
 </div>
+
+<%= link_to "Create New Item", new_merchant_item_path(@merchant.id) %>
