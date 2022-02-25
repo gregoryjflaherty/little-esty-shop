@@ -103,5 +103,14 @@ RSpec.describe 'User story 38' do
       expect(page).to have_content(@invoice_4.created_at.strftime("%A, %B %d,%Y"))
       expect(page).to have_content(@invoice_5.created_at.strftime("%A, %B %d,%Y"))
     end
+    it '#US36 lists items oldest to newest' do
+
+      within "div.items_ready_to_ship" do
+        expect("#{@invoice_2.id}").to appear_before("#{@invoice_3.id}")
+        expect("#{@invoice_3.id}").to appear_before("#{@invoice_4.id}")
+        expect("#{@invoice_4.id}").to appear_before("#{@invoice_5.id}")
+        expect("#{@invoice_5.id}").to appear_before("#{@invoice_6.id}")
+      end
+    end
   end
 end
