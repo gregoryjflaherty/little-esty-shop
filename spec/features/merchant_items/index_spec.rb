@@ -104,4 +104,17 @@ RSpec.describe 'Merchant Items Index' do
       end
     end
   end
+
+  describe 'creating an item' do
+    before(:each) do
+      @nike = Merchant.create!(name: "Nike")
+    end
+
+    it 'visitor sees a link to create a new item' do
+      visit merchant_items_path(@nike)
+
+      click_link("Create New Item")
+      expect(current_path).to eq(new_merchant_item_path(@nike))
+    end
+  end
 end
