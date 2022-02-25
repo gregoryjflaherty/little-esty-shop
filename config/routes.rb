@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :admin, only: [:index]
 
-  scope :admin do
+  namespace :admin do
     resources :merchants
     resources :invoices
   end
