@@ -1,7 +1,7 @@
 <h1><%= @merchant.name %>'s Items</h1>
 
-<h3>Enabled Items</h3>
 <div class="enabled_items">
+  <h3>Enabled Items</h3>
   <% @merchant.enabled_disabled_items(true).each do |item| %>
     <h4><%= link_to "#{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}" %></h4>
     <p> Enabled: <%= item.enabled %></p>
@@ -9,8 +9,8 @@
   <% end %>
 </div>
 
-<h3>Disabled Items</h3>
 <div class="disabled_items">
+  <h3>Disabled Items</h3>
   <% @merchant.enabled_disabled_items(false).each do |item| %>
     <h4><%= link_to "#{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}" %></h4>
     <p>Enabled: <%= item.enabled %></p>

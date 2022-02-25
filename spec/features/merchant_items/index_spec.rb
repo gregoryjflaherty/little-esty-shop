@@ -22,7 +22,6 @@ RSpec.describe 'Merchant Items Index' do
       expect(page).to have_no_content(@item3.name)
     end
   end
-
   describe 'User Story 32' do
     describe 'changes status of item between enabled and disabled' do
       it 'has a button to disable status' do
@@ -50,54 +49,58 @@ RSpec.describe 'Merchant Items Index' do
 
   describe 'User Story 31' do
     describe 'has sections for enabled and disabled items and lists those items in each section' do
-      it 'has a section for disabled and enabled items' do
-        visit merchant_items_path(@nike)
-        expect(current_path).to eq(merchant_items_path(@nike))
+      before(:each) do
+        @nike = Merchant.create!(name: "Nike")
+        @af_one = @nike.items.create!(name: "Air Force One", unit_price: 120)
+        @jordan_6 = @nike.items.create!(name: "Jordan 6", unit_price: 165)
+      end
+    it 'has a section for disabled and enabled items' do
 
-        within "div.enabled_items" do
-          expect(page).to have_content("Enabled Items")
-          expect(page).to_not have_content("Disabled Items")
-        end
+      visit merchant_items_path(@nike)
+      expect(current_path).to eq(merchant_items_path(@nike))
 
-        within "div.disbled_items" do
-          expect(page).to have_content("Disabled Items")
-          expect(page).to_not have_content("Enabled Items")
-        end
+      within "div.enabled_items" do
+        expect(page).to have_content("Enabled Items")
+        expect(page).to_not have_content("Disabled Items")
       end
 
-      it 'Enabled items section only lists enabled items' do
-        visit merchant_items_path(@nike)
-        expect(current_path).to eq(merchant_items_path(@nike))
+      within "div.disabled_items" do
+        expect(page).to have_content("Disabled Items")
+        expect(page).to_not have_content("Enabled Items")
+      end
+    end
 
-        within "div.enabled_items" do
-          expect(page).to have_content("Enabled Items")
-          expect(page).to have_content(@af_one.name)
-          expect(page).to have_content(@jordan_6.name)
-        end
+    it 'Enabled items section only lists enabled items' do
+      visit merchant_items_path(@nike)
+      expect(current_path).to eq(merchant_items_path(@nike))
 
-        within "div.disabled_items" do
-          expect(page).to have_content("Disabled Items")
-          expect(page).to_not have_content(@af_one.name)
-          expect(page).to_not have_content(@jordan_6.name)
-        end
+      within "div.enabled_items" do
+        expect(page).to have_content("Enabled Items")
+        expect(page).to have_content(@af_one.name)
+        expect(page).to have_content(@jordan_6.name)
+      end
 
-      it 'Disabled items section only lists disabled items' do
-        visit merchant_items_path(@nike)
-        expect(current_path).to eq(merchant_items_path(@nike))
+      within "div.disabled_items" do
+        expect(page).to have_content("Disabled Items")
+        expect(page).to_not have_content(@af_one.name)
+        expect(page).to_not have_content(@jordan_6.name)
+      end
+    end
 
-        click_on "Disable #{@jordan_6} Item"
+    it 'Disabled items section only lists disabled items' do
+      visit merchant_items_path(@nike)
+      expect(current_path).to eq(merchant_items_path(@nike))
 
-        within "div.enabled_items" do
-          expect(page).to have_content("Enabled Items")
-          expect(page).to have_content(@af_one.name)
-          expect(page).to_not have_content(@jordan_6.name)
-        end
+      click_on "Disable #{@jordan_6.name} Item"
 
-        within "div.disabled_items" do
-          expect(page).to have_content("Disabled Items")
-          expect(page).to_not have_content(@af_one.name)
-          expect(page).to have_content(@jordan_6.name)
-        end
+      within "div.enabled_items" do
+        expect(page).to have_content(@af_one.name)
+        expect(page).to_not have_content(@jordan_6.name)
+      end
+
+      within "div.disabled_items" do
+        expect(page).to_not have_content(@af_one.name)
+        expect(page).to have_content(@jordan_6.name)
       end
     end
   end
