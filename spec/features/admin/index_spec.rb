@@ -26,8 +26,4 @@ RSpec.describe 'Admin Index' do
       expect(current_path).to eq('/admin/invoices')
     end
   end
-  #   As an admin,
-  # When I visit the admin dashboard (/admin)
-  # Then I see a link to the admin merchants index (/admin/merchants)
-  # And I see a link to the admin invoices index (/admin/invoices)
 end
