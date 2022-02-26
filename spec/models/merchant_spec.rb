@@ -78,4 +78,8 @@ RSpec.describe Merchant, type: :model do
     end
   end
 
+  describe '.class methods' do
+    describe 'self.top_five_customers'
+  end
+
 end
