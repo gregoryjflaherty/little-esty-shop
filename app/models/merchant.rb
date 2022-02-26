@@ -24,14 +24,4 @@ class Merchant < ApplicationRecord
   def enabled_disabled_items(status)
     items.where(enabled: status)
   end
-
-  def self.top_five_customers
-    customers = Customer.all
-    customers.joins(:invoices, :transactions)
-      .where('transactions.result = ?', 1)
-      .group('customers.id')
-      .select('customers.*, count(*) AS transaction_count')
-      .order('transaction_count DESC')
-      .limit(5)
-  end
 end
