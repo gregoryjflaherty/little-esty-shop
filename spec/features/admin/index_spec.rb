@@ -93,7 +93,6 @@ RSpec.describe 'Admin Index' do
       it 'shows the names of the top 5 customers ' do
 
       visit "/admin"
-      save_and_open_page
       expect(page).to have_content("Top 5 Customers")
 
       within "div.top_five_customers" do
