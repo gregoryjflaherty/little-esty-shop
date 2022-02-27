@@ -80,6 +80,9 @@ RSpec.describe 'Admin Index' do
 
         click_on "Invoice #{@invoice_2.id}"
         expect(current_path).to eq(admin_invoices_path(@invoice_2))
+      end
+    end
+  end
 
   describe '#us20' do
     before(:each) do
@@ -144,7 +147,7 @@ RSpec.describe 'Admin Index' do
       @transaction_15 = Transaction.create(invoice_id: @invoice_item_15.invoice.id, result: 1)
     end
 
-      it 'shows the names of the top 5 customers ' do
+    it 'shows the names of the top 5 customers ' do
 
       visit "/admin"
       expect(page).to have_content("Top 5 Customers")
@@ -156,7 +159,6 @@ RSpec.describe 'Admin Index' do
         expect('Four Customer').to appear_before('Five Customer')
         expect(page).to have_content("One Customer with 5 completed transactions")
         expect(page).to have_content("Two Customer with 4 completed transactions")
-
       end
     end
   end
