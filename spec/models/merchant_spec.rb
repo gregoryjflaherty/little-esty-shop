@@ -61,7 +61,7 @@ RSpec.describe Merchant, type: :model do
       end
     end
 
-    it '#items_not_shipped returns unshipped items ordered by invoice date' do
+    it '.items_not_shipped returns unshipped items ordered by invoice date' do
       expect(@nike.items_not_shipped).to eq([@shoe_2, @shoe_3, @shoe_4, @shoe_5, @shoe_6])
     end
   end
@@ -72,10 +72,9 @@ RSpec.describe Merchant, type: :model do
       expect(@nike.enabled_disabled_items(true)).to eq(results)
     end
 
-    it 'provides all items that are disabled' do
+    it '.provides all items that are disabled' do
       results = [@shoe_7, @shoe_8, @shoe_9]
       expect(@nike.enabled_disabled_items(false)).to eq(results)
     end
   end
-
 end
