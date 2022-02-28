@@ -91,7 +91,6 @@ RSpec.describe 'Admin Index' do
         it 'each invoice shows when it was created' do
           visit admin_index_path
           expect(current_path).to eq(admin_index_path)
-          save_and_open_page
 
           expect(page).to have_content("Tuesday, April 02,2013")
         end
