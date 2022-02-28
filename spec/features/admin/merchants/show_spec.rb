@@ -23,4 +23,24 @@ RSpec.describe 'Admin/Merchants Show' do
       expect(current_path).to eq(admin_merchant_path(@merchant1))
     end
   end
+
+  describe 'us15' do
+    it 'shows a link to update the merchant info' do
+    @merchant1 = Merchant.create!(name: "Pabu")
+    visit admin_merchant_path(@merchant1)
+
+    expect(page).to have_link("Update Information")
+    click_on "Update Information"
+
+    expect(current_path).to eq(edit_admin_merchant_path(@merchant1.id))
+    expect(page).to have_field(:merchant_name, with: "Pabu")
+
+    fill_in 'merchant_name', with: "Burton"
+    click_on 'Update Merchant'
+
+    expect(current_path).to eq(admin_merchant_path(@merchant1))
+    expect(page).to have_content("Merchant Successfully Updated")
+    save_and_open_page
+    end
+  end
 end
