@@ -31,7 +31,7 @@ RSpec.describe Invoice, type: :model do
       @invoice_3 = Invoice.create(customer_id: @customer_1.id, status: 1)
       @invoice_4 = Invoice.create(customer_id: @customer_2.id, status: 1)
       @invoice_5 = Invoice.create(customer_id: @customer_2.id, status: 1)
-      @invoice_6 = Invoice.create(customer_id: @customer_2.id, status: 1)
+      @invoice_6 = Invoice.create(customer_id: @customer_2.id, status: 1, created_at: '1989-04-02')
 
       @invoice_item_1 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_1.id, status: 2)
       @invoice_item_2 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_2.id, status: 2)
@@ -46,6 +46,13 @@ RSpec.describe Invoice, type: :model do
         it 'collects all invoices that have items that have not been shipped' do
           results = [@invoice_2]
           expect(Invoice.incomplete_invoices).to eq(results)
+        end
+      end
+
+      describe '#oldest_to_newest' do
+        it 'orders results by created_at - oldest to newest' do
+          results = [@invoice_6, @invoice_1, @invoice_2, @invoice_3, @invoice_4, @invoice_5]
+          expect(Invoice.oldest_to_newest).to eq(results)
         end
       end
     end
