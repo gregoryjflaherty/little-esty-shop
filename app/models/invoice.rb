@@ -10,4 +10,8 @@ class Invoice < ApplicationRecord
   def self.incomplete_invoices
     joins(:invoice_items).where('invoice_items.status != ?', 2).distinct
   end
+
+  def self.oldest_to_newest
+    order(:created_at)
+  end
 end
