@@ -1,0 +1,9 @@
+<h1><%= @merchant.name %></h1>
+
+<% flash.each do |type, msg| %>
+  <div>
+    <%= msg %>
+  </div>
+<% end %>
+
+<%= link_to "Update Information", edit_admin_merchant_path(@merchant.id) %>

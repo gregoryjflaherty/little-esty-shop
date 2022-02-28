@@ -14,12 +14,12 @@ RSpec.describe 'Admin Index' do
     @customer_1 = Customer.create!(first_name: 'One',last_name:'Customer' )
     @customer_2 = Customer.create!(first_name: 'Two',last_name:'Customer' )
 
-    @invoice_1 = Invoice.create(customer_id: @customer_1.id, status: 1)
-    @invoice_2 = Invoice.create(customer_id: @customer_1.id, status: 1)
-    @invoice_3 = Invoice.create(customer_id: @customer_1.id, status: 1)
-    @invoice_4 = Invoice.create(customer_id: @customer_2.id, status: 1)
-    @invoice_5 = Invoice.create(customer_id: @customer_2.id, status: 1)
-    @invoice_6 = Invoice.create(customer_id: @customer_2.id, status: 1)
+    @invoice_1 = Invoice.create(customer_id: @customer_1.id, status: 1, created_at: '2012-04-02')
+    @invoice_2 = Invoice.create(customer_id: @customer_1.id, status: 1, created_at: '2013-04-02')
+    @invoice_3 = Invoice.create(customer_id: @customer_1.id, status: 1, created_at: '2010-04-02')
+    @invoice_4 = Invoice.create(customer_id: @customer_2.id, status: 1, created_at: '2015-04-02')
+    @invoice_5 = Invoice.create(customer_id: @customer_2.id, status: 1, created_at: '2016-04-02')
+    @invoice_6 = Invoice.create(customer_id: @customer_2.id, status: 1, created_at: '2017-04-02')
 
     @invoice_item_1 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_1.id, status: 2)
     @invoice_item_2 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_2.id, status: 2)
@@ -27,6 +27,9 @@ RSpec.describe 'Admin Index' do
     @invoice_item_4 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_4.id, status: 1)
     @invoice_item_5 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_5.id, status: 1)
     @invoice_item_6 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_6.id, status: 1)
+    @invoice_item_7 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_4.id, status: 1)
+    @invoice_item_8 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_5.id, status: 1)
+    @invoice_item_9 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_6.id, status: 1)
   end
 
   describe '#us22' do
@@ -80,6 +83,27 @@ RSpec.describe 'Admin Index' do
 
         click_on "Invoice #{@invoice_2.id}"
         expect(current_path).to eq(admin_invoices_path(@invoice_2))
+      end
+    end
+
+    describe 'US 18' do
+      describe 'invoices listed oldest to newest, showing when it was created in str format' do
+        it 'each invoice shows when it was created' do
+          visit admin_index_path
+          expect(current_path).to eq(admin_index_path)
+
+          expect(page).to have_content("Tuesday, April 02,2013")
+        end
+
+        it 'sorts oldest to newest' do
+          visit admin_index_path
+          expect(current_path).to eq(admin_index_path)
+
+          within "div.incomplete_invoices" do
+            expect("Invoice #{@invoice_3.id}").to appear_before("Invoice #{@invoice_2.id}")
+          end
+
+        end
       end
     end
   end

@@ -22,7 +22,6 @@ RSpec.describe 'User story 34' do
     visit merchant_item_path(@merchant1, @item1)
 
     expect(page).to have_content(@item1.name)
-    expect(page).to have_content(@item1.description)
     expect(page).to have_content(@item1.unit_price)
   end
 end
