@@ -10,9 +10,9 @@ class Merchant < ApplicationRecord
   def self.top_five_by_revenue
     joins(:items, :invoices, :transactions)
       .where(transactions: {result: :success})
-      .select('merchants.name, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
-      .group('merchants.name')
-      .order(revenue: :desc).limit(5)
+      .select('merchants.name, merchants.id, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+      .group('merchants.id')
+      .order(revenue: :desc).distinct.limit(5)
   end
 
   def top_five_customers
