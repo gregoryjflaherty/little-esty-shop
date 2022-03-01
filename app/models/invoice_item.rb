@@ -6,4 +6,9 @@ class InvoiceItem < ApplicationRecord
   has_many :merchants, through: :item
   has_many :customers, through: :invoice
   has_many :transactions, through: :invoice
+
+  def invoice_creation_date
+    invoice.creation_date_formatted
+  end
+
 end

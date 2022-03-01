@@ -5,6 +5,16 @@ class Merchant < ApplicationRecord
   has_many :transactions, through: :invoices
   has_many :customers, through: :invoices
 
+  validates :name, presence: true
+
+  def self.top_five_by_revenue
+    joins(:items, :invoices, :transactions)
+      .where(transactions: {result: :success})
+      .select('merchants.name, merchants.id, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+      .group('merchants.id')
+      .order(revenue: :desc).distinct.limit(5)
+  end
+
   def top_five_customers
     customers.joins(:invoices, :transactions)
       .where('transactions.result = ?', 1)
@@ -19,5 +29,9 @@ class Merchant < ApplicationRecord
     .select("items.*, invoices.created_at AS invoice_created, invoices.id AS invoice_id")
     .where.not("invoice_items.status = ?", 2)
     .order("invoices.created_at ASC")
+  end
+
+  def enabled_disabled_items(status)
+    items.where(enabled: status)
   end
 end
