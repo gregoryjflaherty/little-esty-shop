@@ -26,6 +26,6 @@ RSpec.describe 'merchant invoice show page' do
   end
 
   it 'shows invoice #created_at date formatted in DAY, MM DD, YYYY' do
-    expect(page).to have_content("Monday, February 28, 2022")
+    expect(page).to have_content(@invoice_1.creation_date_formatted)
   end
 end
