@@ -34,4 +34,10 @@ class Merchant < ApplicationRecord
   def enabled_disabled_items(status)
     items.where(enabled: status)
   end
+
+  def best_revenue_day
+    invoices.select('invoices.created_at, SUM(invoice_items.unit_price * invoice_items.quantity) AS total_revenue')
+            .group('invoices.created_at').order(total_revenue: :desc)
+            .limit(1)[0].creation_date_formatted
+  end
 end
