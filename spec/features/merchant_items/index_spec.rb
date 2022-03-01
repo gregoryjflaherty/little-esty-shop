@@ -137,7 +137,7 @@ RSpec.describe 'Merchant Items Index' do
       @converse = Merchant.create!(name: "Converse")
       @high_tops = @converse.items.create!(name: "High-tops", unit_price: 100)
 
-      @vans = Merchant.create!(name: "Timberland")
+      @vans = Merchant.create!(name: "Vans")
       @originals = @vans.items.create!(name: "OG's", unit_price: 50)
 
       @polo = Merchant.create!(name: "Polo")
@@ -172,20 +172,36 @@ RSpec.describe 'Merchant Items Index' do
         expect(current_path).to eq(admin_merchants_path)
 
         expect(page).to have_content("Top Merchants")
-        within "div.top_five_customers" do
+        within "div.top_five_merchants" do
           expect(@timberland.name).to appear_before(@adidas.name)
-          expect(@adidas.name).to appear_before(@nike.name)
-          expect(@nike.name).to appear_before(@converse.name)
+          expect(@adidas.name).to appear_before(@converse.name)
           expect(@converse.name).to appear_before(@polo.name)
+          expect(@polo.name).to appear_before(@vans.name)
         end
       end
 
-      xit 'links to merchants show page' do
+      it 'shows revenue' do
+        visit admin_merchants_path
+        expect(current_path).to eq(admin_merchants_path)
 
+        within "div.top_five_merchants" do
+          expect(page).to have_content("#{@timberland.name} - Total revenue - 300")
+          expect(page).to have_content("#{@adidas.name} - Total revenue - 165")
+          expect(page).to have_content("#{@converse.name} - Total revenue - 100")
+          expect(page).to have_content("#{@polo.name} - Total revenue - 75")
+          expect(page).to have_content("#{@vans.name} - Total revenue - 50")
+        end
       end
 
-      xit 'merchant show page shows total revenue' do
+      it 'links to merchants show page' do
+        visit admin_merchants_path
+        expect(current_path).to eq(admin_merchants_path)
 
+        within "div.top_five_merchants" do
+          click_on "#{@timberland.name}"
+        end
+
+        expect(current_path).to eq(admin_merchant_path(@timberland.id))
       end
     end
   end
