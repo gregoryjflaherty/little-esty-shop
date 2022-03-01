@@ -60,10 +60,11 @@ RSpec.describe Merchant, type: :model do
   describe '.instance methods' do
     describe '.top_five_customers' do
       it 'returns top five cutomers with most most transactions' do
-        expected = [@customer_2, @customer_3, @customer_5, @customer_1, @customer_4]
+        expected = [@customer_2, @customer_3, @customer_4, @customer_5, @customer_6]
         results = @nike.top_five_customers.map do |customer|
           customer
         end
+
         expect(expected).to eq(results)
       end
     end
