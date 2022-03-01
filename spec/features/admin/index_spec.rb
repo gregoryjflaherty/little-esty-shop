@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Admin Index' do
   before(:each) do
     @nike = Merchant.create(name: "Nike")
+    @adidas = Merchant.create(name: "Adidas", status: true)
+    @burton = Merchant.create(name: "Burton", status: true)
 
     @shoe_1 = Item.create(name: 'shoe_1', merchant_id: @nike.id)
     @shoe_2 = Item.create(name: 'shoe_2', merchant_id: @nike.id)

@@ -26,4 +26,16 @@ class Merchant < ApplicationRecord
   def enabled_disabled_items(status)
     items.where(enabled: status)
   end
+
+  def self.enabled_disabled_merchants(status)
+    where(status: status)
+  end
+
+  def change_enabled_status(status)
+    if status == 'true'
+      update!(status: false)
+    else
+      update!(status: true)
+    end
+  end
 end
