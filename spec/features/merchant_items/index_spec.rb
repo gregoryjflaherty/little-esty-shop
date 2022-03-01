@@ -118,11 +118,6 @@ RSpec.describe 'Merchant Items Index' do
     end
   end
 
-#   As an admin,
-# When I visit the admin merchants index
-# Then I see the names of the top 5 merchants by total revenue generated
-# And I see that each merchant name links to the admin merchant show page for that merchant
-# And I see the total revenue generated next to each merchant name
   describe "User Story 11" do
     before(:each) do
       @nike = Merchant.create!(name: "Nike")
