@@ -82,7 +82,6 @@ RSpec.describe 'merchant invoice show page' do
       within "#item#{@shoe_2.id}" do
         expect(page).to have_field('Status', with: 'packaged')
         expect(page).to have_no_field('Status', with: 'shipped')
-        save_and_open_page
       end
     end
   end
