@@ -7,6 +7,14 @@ class Merchant < ApplicationRecord
 
   validates :name, presence: true
 
+  def self.top_five_by_revenue
+    joins(:items, :invoices, :transactions)
+      .where(transactions: {result: :success})
+      .select('merchants.name, merchants.id, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+      .group('merchants.id')
+      .order(revenue: :desc).distinct.limit(5)
+  end
+
   def top_five_customers
     customers.joins(:invoices, :transactions)
       .where('transactions.result = ?', 1)
