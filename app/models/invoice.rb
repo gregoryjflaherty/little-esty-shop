@@ -19,7 +19,8 @@ class Invoice < ApplicationRecord
   def items_by_merchant(merchant_id)
     items.joins(:invoice_items)
       .where('merchant_id = ?', merchant_id)
-
+  end
+  
   def self.oldest_to_newest
     order(:created_at)
   end
