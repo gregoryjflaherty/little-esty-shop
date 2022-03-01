@@ -86,6 +86,38 @@ RSpec.describe Merchant, type: :model do
     end
   end
 
+  describe '.best_revenue_day' do
+    before(:each) do
+      @nike = Merchant.create!(name: "Nike")
+      @af_one = @nike.items.create!(name: "Air Force One", unit_price: 120)
+
+      @invoice_1 = Invoice.create(customer_id: @customer_1.id, status: 1, created_at: "2022-01-01")
+      @invoice_2 = Invoice.create(customer_id: @customer_1.id, status: 1, created_at: "2022-01-01")
+      @invoice_3 = Invoice.create(customer_id: @customer_1.id, status: 1, created_at: "2022-01-02")
+      @invoice_4 = Invoice.create(customer_id: @customer_1.id, status: 1, created_at: "2022-01-02")
+      @invoice_5 = Invoice.create(customer_id: @customer_1.id, status: 1, created_at: "2022-01-04")
+      @invoice_6 = Invoice.create(customer_id: @customer_1.id, status: 1, created_at: "2022-01-05")
+
+      @invoice_item_1 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @af_one.id, status: 1, unit_price: 120, quantity: 1)
+      @invoice_item_2 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @af_one.id, status: 1, unit_price: 120, quantity: 1)
+      @invoice_item_3 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @af_one.id, status: 1, unit_price: 120, quantity: 1)
+      @invoice_item_4 = InvoiceItem.create(invoice_id: @invoice_4.id, item_id: @af_one.id, status: 1, unit_price: 120, quantity: 1)
+      @invoice_item_5 = InvoiceItem.create(invoice_id: @invoice_5.id, item_id: @af_one.id, status: 1, unit_price: 120, quantity: 1)
+      @invoice_item_6 = InvoiceItem.create(invoice_id: @invoice_6.id, item_id: @af_one.id, status: 1, unit_price: 120, quantity: 1)
+
+      @transaction_1 = Transaction.create(invoice_id: @invoice_item_1.invoice.id, result: 1)
+      @transaction_2 = Transaction.create(invoice_id: @invoice_item_2.invoice.id, result: 1)
+      @transaction_3 = Transaction.create(invoice_id: @invoice_item_3.invoice.id, result: 1)
+      @transaction_4 = Transaction.create(invoice_id: @invoice_item_4.invoice.id, result: 1)
+      @transaction_5 = Transaction.create(invoice_id: @invoice_item_5.invoice.id, result: 1)
+      @transaction_6 = Transaction.create(invoice_id: @invoice_item_6.invoice.id, result: 1)
+    end
+
+    it 'returns the date with the best revenue' do
+      expect(@nike.best_revenue_day).to eq("Saturday, January 01, 2022")
+    end
+  end
+
   describe '#class methods' do
     describe '#top_five_by_revenue' do
       before(:each) do
