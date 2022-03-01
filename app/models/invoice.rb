@@ -24,4 +24,5 @@ class Invoice < ApplicationRecord
   def self.oldest_to_newest
     order(:created_at)
   end
+  
 end
