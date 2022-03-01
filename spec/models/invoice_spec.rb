@@ -62,17 +62,18 @@ RSpec.describe Invoice, type: :model do
     end
 
     describe 'instance methods' do
-    describe '#creation_date_formatted' do
-      it 'converts the invoice item invoice creation date to DAY, MM DD, YYYY' do
-        expect(@invoice_1.creation_date_formatted).to eq('Monday, February 28, 2022')
-      end
-    end
+      describe '#creation_date_formatted' do
+        it 'converts the invoice item invoice creation date to DAY, MM DD, YYYY' do
+          expect(@invoice_1.creation_date_formatted).to eq('Tuesday, March 01, 2022')
+        end
+      end 
+    
 
-    describe '#items_by_merchant' do
-      it 'returns all item objects associated with invoice for a specific merchant id' do
-        expect(@invoice_1.items_by_merchant(@nike.id)).to eq([@shoe_1, @shoe_2, @shoe_3])
-        expect(@invoice_1.items_by_merchant(@adidas.id)).to_not include([@shoe_7, @shoe_8])
+      describe '#items_by_merchant' do
+        it 'returns all item objects associated with invoice for a specific merchant id' do
+          expect(@invoice_1.items_by_merchant(@nike.id)).to eq([@shoe_1, @shoe_2, @shoe_3])
+          expect(@invoice_1.items_by_merchant(@adidas.id)).to_not include([@shoe_7, @shoe_8])
+        end
       end
-    end
-  end 
-end
+    end 
+end 
