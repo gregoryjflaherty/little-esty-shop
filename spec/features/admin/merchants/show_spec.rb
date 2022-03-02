@@ -11,7 +11,7 @@ RSpec.describe 'Admin/Merchants Show' do
 
       visit admin_merchants_path
 
-      within "div.merchants" do
+      within "div.disabled_merchants" do
         expect(page).to have_content('Pabu')
         expect(page).to have_content('Loki')
         expect(page).to have_content('Nike')
