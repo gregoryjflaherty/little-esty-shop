@@ -2,3 +2,10 @@
 <li><%="Invoice status: #{@invoice.status}" %>
 <li><%="Created at: #{@invoice.creation_date_formatted}" %>
 <li><%="For: #{@invoice.customer.full_name}" %>
+
+<%= form_with url: admin_invoice_path(@invoice.id), method: :patch, local: true do |f| %>
+<%= f.label :status, "Status"  %>
+<%= f.select :status, [["Cancelled", 'cancelled'], ["Completed", 'completed'], ["In Progress", 'in progress']], selected: @invoice.status %>
+<%= f.submit "Update Invoice Status" %>
+<% end %>
+
