@@ -40,9 +40,13 @@ RSpec.describe 'admin_invoices show page' do
     it 'invoice show shows all items on invoice including name, quantity, price & invoice_item status' do
       visit admin_invoice_path(@invoice_1)
       expect(current_path).to eq(admin_invoice_path(@invoice_1))
-
       within "div.items" do
-        expect(page).to have_content()
+        save_and_open_page
+        expect(page).to have_content("Items on Invoice:")
+        expect(page).to have_content("#{@af_one.name}")
+        expect(page).to have_content("Price: #{@invoice_item_1.unit_price}")
+        expect(page).to have_content("Quantity: #{@invoice_item_1.quantity}")
+        expect(page).to have_content("Status: #{@invoice_item_1.status}")
       end
     end
   end
