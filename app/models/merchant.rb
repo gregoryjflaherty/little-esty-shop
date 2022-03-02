@@ -33,9 +33,9 @@ class Merchant < ApplicationRecord
 
   def change_enabled_status(status)
     if status == 'true'
-      update!(status: false)
-    else
       update!(status: true)
+    else
+      update!(status: false)
     end
   end
 end
