@@ -13,23 +13,36 @@ RSpec.describe 'Admin Index' do
 
     @customer_1 = Customer.create!(first_name: 'One',last_name:'Customer' )
     @customer_2 = Customer.create!(first_name: 'Two',last_name:'Customer' )
+    @customer_3 = Customer.create!(first_name: '3',last_name:'Customer' )
+    @customer_4 = Customer.create!(first_name: '4',last_name:'Customer' )
+    @customer_5 = Customer.create!(first_name: '5',last_name:'Customer' )
+    @customer_6 = Customer.create!(first_name: '6',last_name:'Customer' )
+    @customer_7 = Customer.create!(first_name: '7',last_name:'Customer' )
 
-    @invoice_1 = Invoice.create(customer_id: @customer_1.id, status: 1, created_at: '2012-04-02')
-    @invoice_2 = Invoice.create(customer_id: @customer_1.id, status: 1, created_at: '2013-04-02')
-    @invoice_3 = Invoice.create(customer_id: @customer_1.id, status: 1, created_at: '2010-04-02')
-    @invoice_4 = Invoice.create(customer_id: @customer_2.id, status: 1, created_at: '2015-04-02')
-    @invoice_5 = Invoice.create(customer_id: @customer_2.id, status: 1, created_at: '2016-04-02')
-    @invoice_6 = Invoice.create(customer_id: @customer_2.id, status: 1, created_at: '2017-04-02')
+    @invoice_1 = @customer_1.invoices.create(customer_id: @customer_1.id, status: 1, created_at: '2012-04-02')
+    @invoice_2 = @customer_2.invoices.create(customer_id: @customer_2.id, status: 1, created_at: '2013-04-02')
+    @invoice_3 = @customer_3.invoices.create(customer_id: @customer_3.id, status: 2, created_at: '2010-04-02')
+    @invoice_4 = @customer_4.invoices.create(customer_id: @customer_4.id, status: 1, created_at: '2015-04-02')
+    @invoice_5 = @customer_5.invoices.create(customer_id: @customer_5.id, status: 1, created_at: '2016-04-02')
+    @invoice_6 = @customer_6.invoices.create(customer_id: @customer_6.id, status: 1, created_at: '2017-04-02')
 
-    @invoice_item_1 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_1.id, status: 2)
-    @invoice_item_2 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_2.id, status: 2)
-    @invoice_item_3 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_3.id, status: 2)
-    @invoice_item_4 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_4.id, status: 1)
-    @invoice_item_5 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_5.id, status: 1)
-    @invoice_item_6 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_6.id, status: 1)
-    @invoice_item_7 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_4.id, status: 1)
-    @invoice_item_8 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_5.id, status: 1)
-    @invoice_item_9 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_6.id, status: 1)
+    @invoice_item_1 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_1.id, status: 2, quantity: 1, unit_price: 40)
+    @invoice_item_2 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_2.id, status: 2, quantity: 1, unit_price: 40)
+    @invoice_item_3 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_3.id, status: 2, quantity: 1, unit_price: 40)
+    @invoice_item_4 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_4.id, status: 1, quantity: 1, unit_price: 40)
+    @invoice_item_5 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_5.id, status: 1, quantity: 1, unit_price: 40)
+    @invoice_item_6 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_6.id, status: 1, quantity: 1, unit_price: 40)
+    @invoice_item_7 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_4.id, status: 1, quantity: 1, unit_price: 40)
+    @invoice_item_8 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_5.id, status: 1, quantity: 1, unit_price: 40)
+    @invoice_item_9 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_6.id, status: 1, quantity: 1, unit_price: 40)
+
+    @transaction_1 = Transaction.create(invoice_id: @invoice_item_1.invoice.id, result: 0)
+    @transaction_2 = Transaction.create(invoice_id: @invoice_item_2.invoice.id, result: 1)
+    @transaction_3 = Transaction.create(invoice_id: @invoice_item_3.invoice.id, result: 1)
+    @transaction_4 = Transaction.create(invoice_id: @invoice_item_4.invoice.id, result: 1)
+    @transaction_5 = Transaction.create(invoice_id: @invoice_item_5.invoice.id, result: 1)
+    @transaction_6 = Transaction.create(invoice_id: @invoice_item_6.invoice.id, result: 1)
+    @transaction_7 = Transaction.create(invoice_id: @invoice_item_7.invoice.id, result: 1)
   end
 
   describe '#us22' do
@@ -43,18 +56,20 @@ RSpec.describe 'Admin Index' do
   describe 'US 21' do
     it 'has links to merchant index' do
       visit '/admin/'
-      expect(page).to have_link("All Merchants")
 
-      click_on "All Merchants"
-      expect(current_path).to eq('/admin/merchants')
+      within 'div.links' do
+        expect(page).to have_link("All Merchants")
+        click_on "All Merchants"
+        expect(current_path).to eq(admin_merchants_path)
+      end
     end
 
     it 'has links to invoices index' do
       visit '/admin/'
-      expect(page).to have_link("All Invoices")
+      within 'div.links' do
+        expect(page).to have_link("All Invoices")
 
-      click_on "All Invoices"
-      expect(current_path).to eq('/admin/invoices')
+      end
     end
   end
 
@@ -71,8 +86,6 @@ RSpec.describe 'Admin Index' do
       it 'lists all incomplete invoices' do
         visit admin_index_path
         expect(current_path).to eq(admin_index_path)
-
-
         expect(page).to have_link("Invoice #{@invoice_2.id}")
         expect(page).to_not have_link("Invoice #{@invoice_1.id}")
       end
@@ -80,9 +93,10 @@ RSpec.describe 'Admin Index' do
       it 'links to admin invoice show page' do
         visit admin_index_path
         expect(current_path).to eq(admin_index_path)
-
+        expect(page).to have_link("Invoice #{@invoice_2.id}")
+        # binding.pry
         click_on "Invoice #{@invoice_2.id}"
-        expect(current_path).to eq(admin_invoices_path(@invoice_2))
+        expect(current_path).to eq(admin_invoice_path(@invoice_2))
       end
     end
 
