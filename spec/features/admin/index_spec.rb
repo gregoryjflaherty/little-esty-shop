@@ -189,12 +189,11 @@ RSpec.describe 'Admin Index' do
 
       visit "/admin"
       expect(page).to have_content("Top 5 Customers")
-
       within "div.top_five_customers" do
         expect('One Customer').to appear_before('Two Customer')
         expect('Two Customer').to appear_before('Three Customer')
         expect('Three Customer').to appear_before('Four Customer')
-        expect('Four Customer').to appear_before('Five Customer')
+
         expect(page).to have_content("One Customer with 5 completed transactions")
         expect(page).to have_content("Two Customer with 4 completed transactions")
       end

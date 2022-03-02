@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Admin/Merchants Show' do
+RSpec.describe 'Admin/Merchants Index' do
   describe '#us16' do
     it 'It shows the name of the individual merchant' do
       @merchant1 = Merchant.create!(name: "Pabu")
@@ -16,11 +16,9 @@ RSpec.describe 'Admin/Merchants Show' do
         expect(page).to have_content('Loki')
         expect(page).to have_content('Nike')
         expect(page).to have_content('Adidas')
+        click_on "Pabu"
+        expect(current_path).to eq(admin_merchant_path(@merchant1))
       end
-
-      click_on "Pabu"
-
-      expect(current_path).to eq(admin_merchant_path(@merchant1))
     end
   end
 
