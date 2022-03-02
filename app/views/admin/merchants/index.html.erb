@@ -1,5 +1,9 @@
 <h1>Merchants Index</h1>
+<div class="new_link">
+  <h4><%= link_to "Create New Merchant", new_admin_merchant_path %></h4>
+</div>
 
+<h2>All Merchants</h2>
 <div class="merchants">
   <% @merchants.each do |merchant| %>
     <h3><%=link_to "#{merchant.name}", admin_merchant_path(merchant.id) %> <h3>
@@ -16,7 +20,7 @@
 <% end %>
 </section>
 
-<section id="disabled">
+<div id="disabled">
 <h3>Disabled Merchants</h3>
 <% @merchants.disabled.each do |merchant| %>
   <div id="disabled_merchant-<%=merchant.id%>">
@@ -24,7 +28,7 @@
     <%= button_to "Enable", admin_merchant_path(merchant.id), method: :patch, params: { enable: 0 } %>
   </div>
 <% end %>
-</section>
+</div>
 
 <div class="top_five_merchants">
   <h1>Top Merchants by Revenue</h1>
