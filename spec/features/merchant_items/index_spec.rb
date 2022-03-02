@@ -117,4 +117,29 @@ RSpec.describe 'Merchant Items Index' do
       expect(current_path).to eq(new_merchant_item_path(@nike))
     end
   end
+  describe 'User Story 29' do
+    before(:each) do
+      @merchant = Merchant.create!(name: "Pabu")
+
+      @item1 = Item.create(name: 'Ferret Leash', description: 'Long', unit_price: 15, merchant_id: @merchant.id)
+      @item2 = Item.create(name: 'Ferret Food', description: 'Tastey', unit_price: 20, merchant_id: @merchant.id)
+      @item2 = Item.create(name: 'Ferret Shampoo', description: 'Soapy', unit_price: 10, merchant_id: @merchant.id)
+
+      @customer1 = Customer.create!(first_name: 'Thor',last_name:'Customer' )
+      @customer2 = Customer.create!(first_name: 'Loki',last_name:'Customer' )
+      @customer2 = Customer.create!(first_name: 'Apollo',last_name:'Customer' )
+
+      @invoice1 = Invoice.create(customer_id: @customer1.id, status: 1)
+      @invoice2 = Invoice.create(customer_id: @customer2.id, status: 1)
+      @invoice3 = Invoice.create(customer_id: @customer3.id, status: 1)
+
+      @invoice_item1 = InvoiceItem.create(quantity: 10, unit_price: 15, invoice_id: @invoice1.id, item_id: @shoe_1.id, status: 2)
+      @invoice_item2 = InvoiceItem.create(quantity: 4, unit_price: 20, invoice_id: @invoice2.id, item_id: @shoe_1.id, status: 1)
+      @invoice_item3 = InvoiceItem.create(quantity: 2, unit_price: 10, invoice_id: @invoice3.id, item_id: @shoe_1.id, status: 1)
+
+      visit merchant_items_path(@merchant)
+    end
+    it 'shows top 5 most popular items' do
+      expect()
+    end
 end
