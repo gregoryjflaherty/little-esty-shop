@@ -41,7 +41,7 @@ RSpec.describe 'User story 38' do
 
   it 'shows top 5 customers ' do
     expect(page).to have_content('Top Customers')
-
+    
     within '#customer-0' do
       expect(page).to have_content(@customer_2.first_name)
       expect(page).to have_content(@customer_2.last_name)
