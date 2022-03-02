@@ -23,11 +23,11 @@ RSpec.describe 'merchant invoices index' do
 
 
   it 'shows all invoices that include at least one of merchant items' do
-    expect(page).to have_link(@invoice_1.id)
-    expect(page).to have_link(@invoice_2.id)
-    expect(page).to have_link(@invoice_3.id)
+    expect(page).to have_link("#{@invoice_1.id}")
+    expect(page).to have_link("#{@invoice_2.id}")
+    expect(page).to have_link("#{@invoice_3.id}")
 
-    click_link(@invoice_1.id)
+    click_link("#{@invoice_1.id}")
     expect(current_path).to eq(merchant_invoice_path(@nike.id, @invoice_1.id))
   end
 end
