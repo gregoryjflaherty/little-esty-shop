@@ -83,11 +83,11 @@ RSpec.describe 'Admin Merchants Index' do
         expect(current_path).to eq(admin_merchants_path)
 
         within "div.top_five_merchants" do
-          expect(page).to have_content("#{@timberland.name} - Total revenue - 300")
-          expect(page).to have_content("#{@adidas.name} - Total revenue - 165")
-          expect(page).to have_content("#{@converse.name} - Total revenue - 100")
-          expect(page).to have_content("#{@polo.name} - Total revenue - 75")
-          expect(page).to have_content("#{@vans.name} - Total revenue - 50")
+          expect(page).to have_content("#{@timberland.name} - Total revenue - 3.00")
+          expect(page).to have_content("#{@adidas.name} - Total revenue - 1.65")
+          expect(page).to have_content("#{@converse.name} - Total revenue - 1.00")
+          expect(page).to have_content("#{@polo.name} - Total revenue - 0.75")
+          expect(page).to have_content("#{@vans.name} - Total revenue - 0.50")
         end
       end
 
@@ -141,7 +141,7 @@ RSpec.describe 'Admin Merchants Index' do
         end
       end
     end
-  end 
+  end
 
   describe 'enabled and disabled merchants section' do
     it 'visitor sees button to disable or enable each merchant next to their name' do
@@ -149,7 +149,7 @@ RSpec.describe 'Admin Merchants Index' do
       within("#enabled_merchant-#{@nike.id}") do
         expect(page).to have_button("Disable")
       end
-        
+
       within("#enabled_merchant-#{@adidas.id}") do
         expect(page).to have_button("Disable")
       end
@@ -182,4 +182,3 @@ RSpec.describe 'Admin Merchants Index' do
       end
     end
   end
-
