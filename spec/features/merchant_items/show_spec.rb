@@ -24,6 +24,40 @@ RSpec.describe 'User story 34' do
     expect(page).to have_content(@item1.name)
     expect(page).to have_content(@item1.unit_price)
   end
+
+  describe 'User story 33' do
+    before(:each) do
+      @merchant1 = Merchant.create!(name: "Pabu")
+      @merchant2 = Merchant.create!(name: "Loki")
+      @item1 = @merchant1.items.create!(name: "Ferret Food", unit_price: 20)
+      @item2 = @merchant1.items.create!(name: "Ferret Leash", unit_price: 20)
+      @item3 = @merchant2.items.create!(name: "Ferret Shampoo", unit_price: 20)
+    end
+
+    it 'item name on index page goes to item show page' do
+      visit "/merchants/#{@merchant1.id}/#{@item1.id}"
+
+      click_link "update item"
+
+      expect(page).to have_current_path("/merchants/#{@merchant1.id}/#{@item1.id}/update")
+
+
+      expect(page).to have_content("Update Item")
+
+      fill_in "Name" with: ""
+      fill_in "Description" with: ""
+      fill_in "Current unit price" with: ""
+
+      click_button "Submit"
+
+      expect(page).to have_current_path("/merchants/#{@merchant1.id}/#{@item1.id}")
+
+      #flash message saying info updated
+      flash[:alert] = ""
+
+
+    end
+  end
 end
 
 RSpec.describe 'User story 33' do
