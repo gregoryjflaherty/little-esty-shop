@@ -27,7 +27,6 @@ RSpec.describe 'admin_invoices show page' do
     end
   end
 
-
   describe 'User Story 7' do
     it 'invoice show shows all items on invoice including name, quantity, price & invoice_item status' do
       visit admin_invoice_path(@invoice_1)
@@ -50,6 +49,32 @@ RSpec.describe 'admin_invoices show page' do
       expect(current_path).to eq(admin_invoice_path(@invoice_1))
 
       expect(page).to have_content("Total revenue: 320.00")
+    end 
+  end 
+      
+  describe 'invoice status change' do
+    it 'visitor can select new status and update it' do
+      visit admin_invoice_path(@invoice_1)
+      expect(page).to have_field('Status', with: 'completed')
+      expect(page).to have_button('Update Invoice Status')
+
+      select 'Cancelled', from: 'Status'
+      click_button('Update Invoice Status')
+
+      expect(current_path).to eq(admin_invoice_path(@invoice_1.id))
+      expect(page).to have_field('Status', with: 'cancelled')
+
+      select 'In Progress', from: 'Status'
+      click_button('Update Invoice Status')
+
+      expect(current_path).to eq(admin_invoice_path(@invoice_1.id))
+      expect(page).to have_field('Status', with: 'in progress')
+
+      select 'Completed', from: 'Status'
+      click_button('Update Invoice Status')
+
+      expect(current_path).to eq(admin_invoice_path(@invoice_1.id))
+      expect(page).to have_field('Status', with: 'completed')
     end
   end
 end

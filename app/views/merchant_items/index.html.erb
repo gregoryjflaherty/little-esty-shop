@@ -18,4 +18,11 @@
   <% end %>
 </div>
 
-<%= link_to "Create New Item", new_merchant_item_path(@merchant.id) %>
+<h3><%= link_to "Create New Item", new_merchant_item_path(@merchant.id) %></h3>
+
+<div class="top_five_items">
+<h4>Most popular items</h4>
+<% @merchant.top_five_items.each do |item| %>
+  <p><%= item.name %></p>
+<% end %>
+</div>

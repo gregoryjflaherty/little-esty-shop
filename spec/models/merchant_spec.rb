@@ -18,12 +18,12 @@ RSpec.describe Merchant, type: :model do
     @polo = Merchant.create(name: "Polo")
     @timberland = Merchant.create(name: "Timberland")
 
-    @shoe_1 = Item.create(name: 'shoe_1', merchant_id: @nike.id, unit_price: 100)
+    @shoe_1 = Item.create(name: 'shoe_1', merchant_id: @nike.id, unit_price: 150)
     @shoe_2 = Item.create(name: 'shoe_2', merchant_id: @nike.id, unit_price: 100)
-    @shoe_3 = Item.create(name: 'shoe_3', merchant_id: @nike.id, unit_price: 100)
-    @shoe_4 = Item.create(name: 'shoe_4', merchant_id: @nike.id, unit_price: 100)
+    @shoe_3 = Item.create(name: 'shoe_3', merchant_id: @nike.id, unit_price: 200)
+    @shoe_4 = Item.create(name: 'shoe_4', merchant_id: @nike.id, unit_price: 50)
     @shoe_5 = Item.create(name: 'shoe_5', merchant_id: @nike.id, unit_price: 100)
-    @shoe_6 = Item.create(name: 'shoe_6', merchant_id: @nike.id, unit_price: 100)
+    @shoe_6 = Item.create(name: 'shoe_6', merchant_id: @nike.id, unit_price: 300)
     @shoe_7 = Item.create(name: 'shoe_7', merchant_id: @nike.id, enabled: false)
     @shoe_8 = Item.create(name: 'shoe_8', merchant_id: @nike.id, enabled: false)
     @shoe_9 = Item.create(name: 'shoe_9', merchant_id: @nike.id, enabled: false)
@@ -42,12 +42,12 @@ RSpec.describe Merchant, type: :model do
     @invoice_5 = Invoice.create(customer_id: @customer_5.id, status: 1)
     @invoice_6 = Invoice.create(customer_id: @customer_6.id, status: 1)
 
-    @invoice_item_1 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_1.id, status: 2, unit_price: 100, quantity: 1)
-    @invoice_item_2 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_2.id, status: 1, unit_price: 100, quantity: 1)
-    @invoice_item_3 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_3.id, status: 1, unit_price: 100, quantity: 1)
-    @invoice_item_4 = InvoiceItem.create(invoice_id: @invoice_4.id, item_id: @shoe_4.id, status: 1, unit_price: 100, quantity: 1)
-    @invoice_item_5 = InvoiceItem.create(invoice_id: @invoice_5.id, item_id: @shoe_5.id, status: 1, unit_price: 100, quantity: 1)
-    @invoice_item_6 = InvoiceItem.create(invoice_id: @invoice_6.id, item_id: @shoe_6.id, status: 1, unit_price: 100, quantity: 1)
+    @invoice_item_1 = InvoiceItem.create(invoice_id: @invoice_1.id, item_id: @shoe_1.id, status: 2, unit_price: 150, quantity: 1)
+    @invoice_item_2 = InvoiceItem.create(invoice_id: @invoice_2.id, item_id: @shoe_2.id, status: 1, unit_price: 100, quantity: 4)
+    @invoice_item_3 = InvoiceItem.create(invoice_id: @invoice_3.id, item_id: @shoe_3.id, status: 1, unit_price: 200, quantity: 1)
+    @invoice_item_4 = InvoiceItem.create(invoice_id: @invoice_4.id, item_id: @shoe_4.id, status: 1, unit_price: 50, quantity: 1)
+    @invoice_item_5 = InvoiceItem.create(invoice_id: @invoice_5.id, item_id: @shoe_5.id, status: 1, unit_price: 100, quantity: 2)
+    @invoice_item_6 = InvoiceItem.create(invoice_id: @invoice_6.id, item_id: @shoe_6.id, status: 1, unit_price: 300, quantity: 1)
 
     @transaction_1 = Transaction.create(invoice_id: @invoice_item_1.invoice.id, result: 0)
     @transaction_2 = Transaction.create(invoice_id: @invoice_item_2.invoice.id, result: 1)
@@ -71,6 +71,12 @@ RSpec.describe Merchant, type: :model do
 
     it '.items_not_shipped returns unshipped items ordered by invoice date' do
       expect(@nike.items_not_shipped).to eq([@shoe_2, @shoe_3, @shoe_4, @shoe_5, @shoe_6])
+    end
+
+    describe '.top_five_items' do
+      it 'returns top five items ranked on total revenue' do
+        expect(@nike.top_five_items.to_a).to eq([@shoe_2, @shoe_6, @shoe_3, @shoe_5, @shoe_1])
+      end
     end
   end
 
@@ -170,6 +176,16 @@ RSpec.describe Merchant, type: :model do
         expect(results[2].name).to eq(@adidas.name)
         expect(results[3].name).to eq(@converse.name)
         expect(results[4].name).to eq(@polo.name)
+      end
+    end
+
+     describe '::enabled and ::disabled' do
+      it 'returns all merchants with a status of disabled' do
+        expect(Merchant.disabled).to eq([@nike, @adidas, @vans, @converse, @polo, @timberland])
+      end
+
+      it 'returns all merchants with a status of enabled' do
+        expect(Merchant.enabled).to eq([])
       end
     end
   end

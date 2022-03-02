@@ -4,7 +4,6 @@
 <li><%="For: #{@invoice.customer.full_name}" %>
 <li>Total revenue: <%= '%.2f' % (@invoice.total_revenue / 100.0) %>
 
-
 <div class="items">
   <h3> Items on Invoice:</h3>
   <% @invoice.invoice_items.each do |inv_itm| %>
@@ -14,3 +13,10 @@
     <li>Status: <%= inv_itm.status %>
   <% end %>
 </div>
+
+<%= form_with url: admin_invoice_path(@invoice.id), method: :patch, local: true do |f| %>
+<%= f.label :status, "Status"  %>
+<%= f.select :status, [["Cancelled", 'cancelled'], ["Completed", 'completed'], ["In Progress", 'in progress']], selected: @invoice.status %>
+<%= f.submit "Update Invoice Status" %>
+<% end %>
+

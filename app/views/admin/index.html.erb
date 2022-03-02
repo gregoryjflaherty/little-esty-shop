@@ -1,9 +1,16 @@
 <h1>Admin Dashboard</h1>
-<p><%= link_to "All Merchants", admin_merchants_path %></p>
-<p><%= link_to "All Invoices", admin_invoices_path %></p>
+<div class="links">
+  <p><%= link_to "All Merchants", admin_merchants_path %></p>
+  <p><%= link_to "All Invoices", admin_invoices_path %></p>
+</div>
 
 
-<%= render partial: 'incomplete_invoices', locals: {invoices: @invoices} %>
+<h2>Incomplete Invoices</h2>
+<div class="incomplete_invoices">
+  <% @invoices.incomplete_invoices.each do |invoice| %>
+    <li><%= link_to "Invoice #{invoice.id}", admin_invoice_path(invoice.id) %> - Created: <%= invoice.created_at.strftime("%A, %B %d,%Y") %><li>
+  <% end %>
+</div>
 
 <div class="top_five_customers">
   <h2>Top 5 Customers</h2>
