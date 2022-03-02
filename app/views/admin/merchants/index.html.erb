@@ -3,17 +3,17 @@
 <div class="enabled_merchants">
   <h3>Enabled Merchants</h3>
   <% @merchants.enabled_disabled_merchants(true).each do |merchant| %>
-  <% #binding.pry %>
     <h4><%= link_to "#{merchant.name}", admin_merchant_path(merchant.id) %></h4>
     <p> Enabled: <%= merchant.status %></p>
-    <%= button_to "Disable #{merchant.name}", admin_merchant_path(merchant.id), {status: true, method: 'patch'} %>
+    <%= button_to "Disable #{merchant.name}", admin_merchant_path(merchant.id), method: :patch, params: [status:false] %>
   <% end %>
 </div>
+
 <div class="disabled_merchants">
   <h3>Disabled Merchants</h3>
   <% @merchants.enabled_disabled_merchants(false).each do |merchant| %>
     <h4><%= link_to "#{merchant.name}", admin_merchant_path(merchant.id) %></h4>
     <p> Enabled: <%= merchant.status %></p>
-    <%= button_to "Enable #{merchant.name}", admin_merchant_path(merchant.id), {status: false, method: 'patch'} %>
+    <%= button_to "Enable #{merchant.name}", admin_merchant_path(merchant.id), method: :patch, params: [status: true] %>
   <% end %>
 </div>
