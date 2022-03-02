@@ -18,12 +18,20 @@ RSpec.describe Item, type: :model do
         expect(@af_one.enabled).to eq(true)
       end
 
-      it 'it changes enabled status' do
+      it 'it changes enabled status to false' do
         @nike = Merchant.create!(name: "Nike")
         @af_one = @nike.items.create!(name: "Air Force One", unit_price: 120)
 
         @af_one.change_enabled_status('true')
         expect(@af_one.enabled).to eq(false)
+      end
+
+      it 'changes enabled status to true' do
+        @nike = Merchant.create!(name: "Nike")
+        @af_one = @nike.items.create!(name: "Air Force One", unit_price: 120)
+
+        @af_one.change_enabled_status('false')
+        expect(@af_one.enabled).to eq(true)
       end
     end
   end

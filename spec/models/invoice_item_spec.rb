@@ -28,6 +28,7 @@ RSpec.describe InvoiceItem, type: :model do
     end 
     
     it 'converts the invoice item invoice creation date to Day of Week, MM DD,YYYY' do
+      expect(@invoice_1.creation_date_formatted).to eq('Wednesday, March 02, 2022')
       expect(@invoice_item_1.invoice_creation_date).to eq('Wednesday, March 02, 2022')
     end
   end
