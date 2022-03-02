@@ -14,7 +14,7 @@ RSpec.describe 'admin_invoices show page' do
     it 'goes to invoice show page which include id, status, created_at, and full name' do
       visit admin_invoice_path(@invoice_1)
       expect(current_path).to eq(admin_invoice_path(@invoice_1))
-      save_and_open_page
+
       expect(page).to have_content("Invoice: #{@invoice_1.id}")
       expect(page).to have_content("Invoice status: #{@invoice_1.status}")
       expect(page).to have_content("Created at: #{@invoice_1.creation_date_formatted}")
