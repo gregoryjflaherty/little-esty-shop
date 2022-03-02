@@ -25,6 +25,15 @@ class Merchant < ApplicationRecord
       .limit(5)
   end
 
+  def top_five_items
+    items.joins(invoice_items: {invoice: :transactions})
+    .select("items.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS total_rev")
+    .group("invoice_items.item_id")
+    .group("items.id")
+    .order("total_rev DESC")
+    .limit(5)
+  end
+
   def items_not_shipped
     items.joins(invoice_items: :invoice)
     .select("items.*, invoices.created_at AS invoice_created, invoices.id AS invoice_id")
