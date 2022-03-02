@@ -172,5 +172,15 @@ RSpec.describe Merchant, type: :model do
         expect(results[4].name).to eq(@polo.name)
       end
     end
+
+     describe '::enabled and ::disabled' do
+      it 'returns all merchants with a status of disabled' do
+        expect(Merchant.disabled).to eq([@nike, @adidas, @vans, @converse, @polo, @timberland])
+      end
+
+      it 'returns all merchants with a status of enabled' do
+        expect(Merchant.enabled).to eq([])
+      end
+    end
   end
-end
+end 
