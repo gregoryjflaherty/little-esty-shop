@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Admin?Merchants Index' do
+RSpec.describe 'Admin Merchants Index' do
   describe '#us17' do
     it 'It shows the name of all the merchants' do
       @merchant1 = Merchant.create!(name: "Pabu")
@@ -21,10 +21,10 @@ RSpec.describe 'Admin?Merchants Index' do
   end
 
   before(:each) do
-    @nike = Merchant.create!(name: "Nike")
+    @nike = Merchant.create!(name: "Nike", status: 0)
     @af_one = @nike.items.create!(name: "Air Force One", unit_price: 120)
 
-    @adidas = Merchant.create!(name: "Adidas")
+    @adidas = Merchant.create!(name: "Adidas", status: 0)
     @a_six = @adidas.items.create!(name: "A6", unit_price: 165)
 
     @timberland = Merchant.create!(name: "Timberland")
@@ -141,5 +141,45 @@ RSpec.describe 'Admin?Merchants Index' do
         end
       end
     end
+  end 
+
+  describe 'enabled and disabled merchants section' do
+    it 'visitor sees button to disable or enable each merchant next to their name' do
+      visit admin_merchants_path
+      within("#enabled_merchant-#{@nike.id}") do
+        expect(page).to have_button("Disable")
+      end
+        
+      within("#enabled_merchant-#{@adidas.id}") do
+        expect(page).to have_button("Disable")
+      end
+
+      within("#disabled_merchant-#{@converse.id}") do
+        expect(page).to have_button("Enable")
+      end
+    end
+
+      it 'visitor clicks button and is redirected back to the same page, where they see the Merchant status change' do
+        visit admin_merchants_path
+        within("#enabled_merchant-#{@nike.id}") do
+          click_button("Disable")
+          expect(current_path).to eq(admin_merchants_path)
+        end
+
+        within("#disabled") do
+          expect(page).to have_content(@nike.name)
+        end
+
+        within("#disabled_merchant-#{@nike.id}") do
+          click_button("Enable")
+          expect(current_path).to eq(admin_merchants_path)
+        end
+
+        within("#enabled") do
+          visit admin_merchants_path
+          expect(page).to have_content(@nike.name)
+        end
+      end
+    end
   end
-end
+
