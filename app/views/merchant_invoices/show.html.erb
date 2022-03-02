@@ -1,0 +1,27 @@
+<h1>Invoice Number <%= @invoice.id %></h1>
+
+<h2>Invoice Status: <%= @invoice.status %></h2>
+<h2>Created On: <%= @invoice.creation_date_formatted %></h2>
+
+<h2>Customer Information:</h2>
+<p>First Name: <%= @invoice.customer.first_name %></p>
+<p>Last Name: <%= @invoice.customer.last_name %></p>
+
+<h2>Merchant Items:</h2>
+<% @merchant_items.each do |item| %>
+  <% item.invoice_items.each do |invoice_item| %>
+  <div id="item<%= item.id %>">
+    <p>Item: <%= item.name %> </p>
+      <p>Unit Price: <%= invoice_item.unit_price %> </p>
+      <p>Quantity: <%= invoice_item.quantity %> </p>
+      <p>Status: <%= invoice_item.status %> </p>
+
+    <p><%= form_with url: merchant_invoice_path(item.merchant_id, @invoice.id), method: :patch, local: true do |f| %>
+        <%= f.hidden_field :invoice_item_id, value: invoice_item.id %>
+        <%= f.label :status, "Status"  %>
+        <%= f.select :status, [["Packaged", 'packaged'], ["Pending", 'pending'], ["Shipped", 'shipped']], selected: invoice_item.status %>
+        <%= f.submit "Update Item Status" %>
+      <% end %>
+  <% end %></p>
+  </div>
+<% end %>

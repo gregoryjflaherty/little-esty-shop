@@ -17,3 +17,11 @@
     <%= button_to "Enable #{merchant.name}", admin_merchant_path(merchant.id), method: :patch, params: [status: true] %>
   <% end %>
 </div>
+
+<div class="top_five_merchants">
+  <h1>Top Merchants by Revenue</h1>
+  <% @merchants.top_five_by_revenue.each do |merchant| %>
+    <h3><%=link_to "#{merchant.name}", admin_merchant_path(merchant.id) %> - Total revenue - <%= '%.2f' % (merchant.revenue / 100.0) %> <h3>
+      <li><%= "Top selling date for #{merchant.name} was #{merchant.best_revenue_day}" %><br>
+  <% end %>
+</div>
