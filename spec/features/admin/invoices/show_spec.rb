@@ -27,14 +27,6 @@ RSpec.describe 'admin_invoices show page' do
     end
   end
 
-#   As an admin
-# When I visit an admin invoice show page
-# Then I see all of the items on the invoice including:
-#
-# Item name
-# The quantity of the item ordered
-# The price the Item sold for
-# The Invoice Item status
 
   describe 'User Story 7' do
     it 'invoice show shows all items on invoice including name, quantity, price & invoice_item status' do
@@ -48,6 +40,16 @@ RSpec.describe 'admin_invoices show page' do
         expect(page).to have_content("Quantity: #{@invoice_item_1.quantity}")
         expect(page).to have_content("Status: #{@invoice_item_1.status}")
       end
+    end
+  end
+
+  describe 'User Story 8' do
+    it 'shows total revenue for invoice' do
+      visit admin_invoice_path(@invoice_1)
+      save_and_open_page
+      expect(current_path).to eq(admin_invoice_path(@invoice_1))
+
+      expect(page).to have_content("Total revenue: 320.00")
     end
   end
 end
