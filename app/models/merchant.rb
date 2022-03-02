@@ -1,4 +1,5 @@
 class Merchant < ApplicationRecord
+  enum status: ["enabled", "disabled"]
   has_many :items
   has_many :invoice_items, through: :items
   has_many :invoices, through: :invoice_items
@@ -33,5 +34,19 @@ class Merchant < ApplicationRecord
 
   def enabled_disabled_items(status)
     items.where(enabled: status)
+  end
+
+  def best_revenue_day
+    invoices.select('invoices.created_at, SUM(invoice_items.unit_price * invoice_items.quantity) AS total_revenue')
+            .group('invoices.created_at').order(total_revenue: :desc)
+            .limit(1)[0].creation_date_formatted
+  end
+
+  def self.disabled
+    where(status: 1)
+  end
+
+  def self.enabled
+    where(status: 0)
   end
 end
