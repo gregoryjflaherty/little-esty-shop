@@ -33,7 +33,7 @@ RSpec.describe 'admin_invoices show page' do
       visit admin_invoice_path(@invoice_1)
       expect(current_path).to eq(admin_invoice_path(@invoice_1))
       within "div.items" do
-        save_and_open_page
+
         expect(page).to have_content("Items on Invoice:")
         expect(page).to have_content("#{@af_one.name}")
         expect(page).to have_content("Price: #{@invoice_item_1.unit_price}")
@@ -46,7 +46,7 @@ RSpec.describe 'admin_invoices show page' do
   describe 'User Story 8' do
     it 'shows total revenue for invoice' do
       visit admin_invoice_path(@invoice_1)
-      save_and_open_page
+
       expect(current_path).to eq(admin_invoice_path(@invoice_1))
 
       expect(page).to have_content("Total revenue: 320.00")
