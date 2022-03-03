@@ -35,27 +35,19 @@ RSpec.describe 'User story 34' do
     end
 
     it 'item name on index page goes to item show page' do
-      visit "/merchants/#{@merchant1.id}/#{@item1.id}"
+      visit "/merchants/#{@merchant1.id}/items/#{@item1.id}"
 
-      click_link "update item"
+      click_link "Update #{@item1.name}"
 
-      expect(page).to have_current_path("/merchants/#{@merchant1.id}/#{@item1.id}/update")
+      expect(current_path).to eq("/merchants/#{@merchant1.id}/items/#{@item1.id}/edit")
 
-
-      expect(page).to have_content("Update Item")
-
-      fill_in "Name" with: ""
-      fill_in "Description" with: ""
-      fill_in "Current unit price" with: ""
+      fill_in "Name", with: ""
+      fill_in "Description", with: ""
+      fill_in "unit_price", with: ""
 
       click_button "Submit"
 
-      expect(page).to have_current_path("/merchants/#{@merchant1.id}/#{@item1.id}")
-
-      #flash message saying info updated
-      flash[:alert] = ""
-
-
+      expect(page).to have_current_path("/merchants/#{@merchant1.id}/items/#{@item1.id}")
     end
   end
 end
@@ -82,7 +74,7 @@ RSpec.describe 'User story 33' do
     fill_in 'Name', with: 'Cat food'
     fill_in 'Description', with: 'Good stuff'
     fill_in 'Unit price', with: 15
-    click_button "Save"
+    click_button "Submit"
 
     expect(page).to have_current_path(merchant_item_path(@merchant1, @item1))
 

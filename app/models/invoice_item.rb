@@ -11,4 +11,8 @@ class InvoiceItem < ApplicationRecord
     invoice.creation_date_formatted
   end
 
+  def self.revenue
+      sum('quantity * unit_price')
+  end
+
 end
