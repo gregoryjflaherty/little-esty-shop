@@ -20,7 +20,11 @@ class Invoice < ApplicationRecord
     items.joins(:invoice_items)
       .where('merchant_id = ?', merchant_id)
   end
-  
+
+  def total_revenue
+    invoice_items.sum('invoice_items.quantity * invoice_items.unit_price')
+  end
+
   def self.oldest_to_newest
     order(:created_at)
   end

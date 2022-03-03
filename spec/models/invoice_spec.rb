@@ -66,8 +66,8 @@ RSpec.describe Invoice, type: :model do
         it 'converts the invoice item invoice creation date to DAY, MM DD, YYYY' do
           expect(@invoice_1.creation_date_formatted).to eq('Wednesday, March 02, 2022')
         end
-      end 
-    
+      end
+
 
       describe '#items_by_merchant' do
         it 'returns all item objects associated with invoice for a specific merchant id' do
@@ -75,5 +75,11 @@ RSpec.describe Invoice, type: :model do
           expect(@invoice_1.items_by_merchant(@adidas.id)).to_not include([@shoe_7, @shoe_8])
         end
       end
-    end 
-end 
+
+      describe '.total_revenue' do
+        it 'total revenue for that invoice' do
+          expect(@invoice_1.total_revenue).to eq(600)
+        end
+      end
+    end
+end

@@ -2,6 +2,17 @@
 <li><%="Invoice status: #{@invoice.status}" %>
 <li><%="Created at: #{@invoice.creation_date_formatted}" %>
 <li><%="For: #{@invoice.customer.full_name}" %>
+<li>Total revenue: <%= '%.2f' % (@invoice.total_revenue / 100.0) %>
+
+<div class="items">
+  <h3> Items on Invoice:</h3>
+  <% @invoice.invoice_items.each do |inv_itm| %>
+    <h5><%= inv_itm.item.name %></h5>
+    <li>Price: <%= inv_itm.unit_price %>
+    <li>Quantity: <%= inv_itm.quantity %>
+    <li>Status: <%= inv_itm.status %>
+  <% end %>
+</div>
 
 <%= form_with url: admin_invoice_path(@invoice.id), method: :patch, local: true do |f| %>
 <%= f.label :status, "Status"  %>
