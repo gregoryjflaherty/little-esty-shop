@@ -5,15 +5,52 @@
 </div>
 
 <div class="top_five_customers">
-  <h3>Top 5 Customers</h3>
-  <% @customers.top_five_customers.each do |customer| %>
-  <dl><li><%= customer.full_name %> with <%= customer.successful_transactions_count %> completed transactions</li><dl>
-  <% end %>
-</div>
+  <table class="table">
+    <h3>Top Five Customers</h3>
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Successful Transactions </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @customers.top_five_customers.each do |customer| %>
+      <tr>
+        <th scope="row"><%= customer.full_name %></th>
+        <td><%= customer.successful_transactions_count %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div><br>
 
-<h2>Incomplete Invoices</h2>
+<h3>Incomplete Invoices</h3><br>
 <div class="incomplete_invoices">
-  <% @invoices.incomplete_invoices.each do |invoice| %>
-  <dl><li><%= link_to "Invoice #{invoice.id}", admin_invoice_path(invoice.id) %> - Created: <%= invoice.created_at.strftime("%A, %B %d,%Y") %></li><dl>
-  <% end %>
+  <table class="table">
+    <thead class= 'table-dark'>
+      <style>
+        .incomplete_invoices {
+      position: relative;
+      height: 500px;
+      width: 350px;
+      overflow: auto;
+      }
+      .incomplete_invoices {
+      display: block;
+      }
+      </style>
+      <tr>
+        <th scope="col">Invoice Number</th>
+        <th scope="col">Created at </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @invoices.incomplete_invoices.each do |invoice| %>
+      <tr>
+          <th scope="row"><%= link_to "#{invoice.id}", admin_invoice_path(invoice.id) %></th>
+          <td><%= invoice.created_at.strftime("%A, %B %d,%Y") %></td>
+      </tr>
+      <%end%>
+    </tbody>
+  </table>
 </div>
