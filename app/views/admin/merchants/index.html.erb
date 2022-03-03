@@ -3,18 +3,134 @@
   <h5><li><em><strong><%= link_to "Create New Merchant", new_admin_merchant_path %></strong></em></li></h5><br><br>
 </div>
 <div class="top_five_merchants">
-  <h3>Top Merchants by Revenue</h3><br>
-  <% @merchants.top_five_by_revenue.each do |merchant| %>
-  <h6><strong><%=link_to "#{merchant.name}", admin_merchant_path(merchant.id) %> </strong>- Total revenue - <%= '%.2f' % (merchant.revenue / 100.0) %> </h6>
-    <dl><li><%= "Top selling date for #{merchant.name} was #{merchant.best_revenue_day}" %><dl></li>
+  <table class="table">
+    <h3>Top Merchants by Revenue</h3>
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Total Revenue</th>
+        <th scope="col">Top Selling Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @merchants.top_five_by_revenue.each do |merchant| %>
+      <tr>
+        <th scope="row"><%= merchant.id %></th>
+        <td><%=link_to "#{merchant.name}", admin_merchant_path(merchant.id) %></td>
+        <td><%= merchant.revenue %></td>
+        <td><%= merchant.best_revenue_day %></td>
+      </tr>
       <% end %>
-    </div>
+    </tbody>
+  </table>
+</div><br>
 
 <h3>All Merchants</h3>
-<div class="merchants">
-  <% @merchants.each do |merchant| %>
-  <dl><li><%=link_to "#{merchant.name}", admin_merchant_path(merchant.id) %></li><dl>
-  <% end %>
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+  <table class="table table-bordered table-striped mb-0">
+    <style>
+      .my-custom-scrollbar {
+    position: relative;
+    height: 500px;
+    width: 350px;
+    overflow: auto;
+    }
+    .table-wrapper-scroll-y {
+    display: block;
+    }
+    </style>
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Merchant Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @merchants.each do |merchant| %>
+      <tr>
+        <div class="merchants">
+            <th scope="row"><%= merchant.id %></th>
+            <td><%=link_to "#{merchant.name}", admin_merchant_path(merchant.id) %></td>
+      </tr>
+        <% end %>
+      </div>
+    </tbody>
+  </table>
+</div><br>
+
+<h3>Disabled Merchants</h3>
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+  <table class="table table-bordered table-striped mb-0">
+    <style>
+      .my-custom-scrollbar {
+    position: relative;
+    height: 500px;
+    width: 350px;
+    overflow: auto;
+    }
+    .table-wrapper-scroll-y {
+    display: block;
+    }
+    </style>
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Merchant Name</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @merchants.disabled.each do |merchant| %>
+      <tr>
+        <div id="disabled">
+          <div id="disabled_merchant-<%=merchant.id%>">
+            <th scope="row"><%= merchant.id %></th>
+            <td><%= merchant.name %></td>
+            <td><%= button_to "Enable", admin_merchant_path(merchant.id), method: :patch, params: { enable: 0 } %></td>
+          </div>
+      </tr>
+        <% end %>
+      </div>
+    </tbody>
+  </table>
+</div><br>
+
+<h3>Enabled Merchants</h3>
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+  <table class="table table-bordered table-striped mb-0">
+    <style>
+      .my-custom-scrollbar {
+    position: relative;
+    height: 500px;
+    width: 350px;
+    overflow: auto;
+    }
+    .table-wrapper-scroll-y {
+    display: block;
+    }
+    </style>
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Merchant Name</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @merchants.enabled.each do |merchant| %>
+      <tr>
+        <div id="enabled">
+          <div id="enabled_merchant-<%=merchant.id%>">
+            <th scope="row"><%= merchant.id %></th>
+            <td><%= merchant.name %></td>
+            <td><%= button_to "Disable", admin_merchant_path(merchant.id), method: :patch, params: { disable: 1 } %></td>
+          </div>
+    </tr>
+        <% end %>
+      </div>
+    </tbody>
+  </table>
 </div>
 
 <section id="enabled">
