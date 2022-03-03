@@ -23,11 +23,16 @@ class Admin::MerchantsController < AdminController
       @merchant = Merchant.find(params[:id])
       @merchant.update!(merchant_params)
       redirect_to admin_merchant_path(@merchant),  notice: "Merchant Successfully Updated"
-    end 
+    end
+  end
+
+  def create
+    merchant = Merchant.create!({name: params[:name]})
+    redirect_to  admin_merchants_path
   end
 
   private
   def merchant_params
-    params.require(:merchant).permit(:name)
+    params.require(:merchant).permit(:name, :status)
   end
 end
