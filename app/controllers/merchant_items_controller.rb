@@ -25,16 +25,6 @@ class MerchantItemsController < ApplicationController
   end
 
   def update
-    item = Item.find(params[:item_id])
-    item.update({
-      name: params[:name],
-      description: params[:description],
-      unit_price: params[:unit_price]
-      })
-
-    redirect_to "/merchants/#{@merchant1.id}/#{@item1.id}"
-
-    flash[:alert] = "Item info has been updated"
     @item = Item.find(params[:id])
     if params[:enabled]
       @item.change_enabled_status(params[:enabled])
@@ -47,9 +37,8 @@ class MerchantItemsController < ApplicationController
         description: params[:description],
         unit_price: params[:unit_price]
         })
-
-      redirect_to "/merchants/#{@merchant.id}/items/#{@item.id}"
-
+        
+        redirect_to "/merchants/#{@merchant.id}/items/#{@item.id}"
       flash[:alert] = "Item has been updated"
     end
   end
