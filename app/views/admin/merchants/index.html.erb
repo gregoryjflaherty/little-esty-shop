@@ -7,9 +7,24 @@
 </div>
 
 <div class="top_five_merchants">
-  <h1>Top Merchants by Revenue</h1>
-  <% @merchants.top_five_by_revenue.each do |merchant| %>
-    <h3><%=link_to "#{merchant.name}", admin_merchant_path(merchant.id) %> - Total revenue - <%= merchant.revenue %> <h3>
-      <li><%= "Top selling date for #{merchant.name} was #{merchant.best_revenue_day}" %><br>
-  <% end %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Total Revenue</th>
+        <th scope="col">Top Selling Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @merchants.top_five_by_revenue.each do |merchant| %>
+      <tr>
+        <th scope="row"><%= merchant.id %></th>
+        <td><%=link_to "#{merchant.name}", admin_merchant_path(merchant.id) %></td>
+        <td><%= merchant.revenue %></td>
+        <td><%= merchant.best_revenue_day %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
